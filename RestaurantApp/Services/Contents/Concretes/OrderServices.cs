@@ -786,8 +786,7 @@ namespace RestaurantApp.Services.Contents.Concretes
                     throw new Exception($"No order was found with this Id {orderId} to be deleted");
                 }
 
-                var orderQueue = await _context.OrderQueue
-                    .FirstOrDefaultAsync(oq => oq.OrderId == orderId);
+                var orderQueue = await _orderQueueService.GetOrderQueueAsync(orderId);
 
                 if (orderQueue is  null)
                 {
@@ -797,7 +796,7 @@ namespace RestaurantApp.Services.Contents.Concretes
                 }
                 else
                 {
-                    _context.OrderQueue.Remove(orderQueue);
+                    _orderQueueService.RemoveOrderQueue(orderQueue);
                     _context.Orders.Remove(order);
                     await _context.SaveChangesAsync();
 

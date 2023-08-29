@@ -132,7 +132,6 @@ namespace RestaurantApp.Controllers
         {
             try
             {
-                System.Diagnostics.Debugger.Break();
 
 
                 var cartItems = await _orderService.GetOrderDto(id);

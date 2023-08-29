@@ -6,5 +6,7 @@ namespace RestaurantApp.Helpers.Queue
     {
         Task EnqueueOrder(Order order);
         Task<Order> DequeueOrder();
+        Task<OrderQueue> GetOrderQueueAsync(Guid orderId);
+        void RemoveOrderQueue(OrderQueue orderQueue);
     }
 }

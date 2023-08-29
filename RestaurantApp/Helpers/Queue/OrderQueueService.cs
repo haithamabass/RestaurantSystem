@@ -42,5 +42,20 @@ namespace RestaurantApp.Helpers.Queue
             // Return the order
             return await _context.Orders.Include(o => o.OrderType).FirstOrDefaultAsync(o => o.OrderId == firstOrderInQueue.OrderId);
         }
+
+
+        public async Task<OrderQueue> GetOrderQueueAsync(Guid orderId)
+        {
+            var orderQueue = await _context.OrderQueue
+                .FirstOrDefaultAsync(oq => oq.OrderId == orderId);
+            return orderQueue;
+        }
+
+        public void RemoveOrderQueue(OrderQueue orderQueue)
+        {
+            _context.OrderQueue.Remove(orderQueue);
+        }
+
     }
+
 }

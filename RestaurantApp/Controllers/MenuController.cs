@@ -70,7 +70,7 @@ namespace RestaurantApp.Controllers
         }
         #endregion
 
-        #region GetProductByBarCode Endpoint
+        #region GetItemsByCategory Endpoint
 
         [HttpGet("categoryId/{categoryId}")]
         public async Task<ActionResult<MenuDto>> GetItemsByCategory(int categoryId )
@@ -107,10 +107,13 @@ namespace RestaurantApp.Controllers
 
         #region UpdateDish
 
-        [HttpPut("Update")]
-        public async Task<IActionResult> UpdateProduct([FromQuery] Guid id, [FromQuery] MenuToUpdateDto model)
+        [HttpPut("UpdateDish")]
+        public async Task<IActionResult> UpdateDish([FromQuery] Guid id, [FromQuery] MenuToUpdateDto model)
         {
            var existedItem = await _menuServices.GetById(id);
+
+            if (existedItem == null)
+                return BadRequest("record was not found");
            
           var updatedItem =  await _menuServices.UpdateDishInMenu(existedItem ,model);
 
@@ -126,10 +129,10 @@ namespace RestaurantApp.Controllers
             var product = await _menuServices.GetById(id);
             if (product is null)
             {
-                return NotFound($"product with Id:{id} has not found");
+                return NotFound($"item with Id:{id} was not found");
             }
 
-            _menuServices.DeleteDish(product);
+            await _menuServices.DeleteDish(product);
 
             return Ok("Deleted");
         }
