@@ -936,4 +936,426 @@ The `GetOrder` endpoint is an HTTP GET method that retrieves a specific order fr
 ### GetOrderDto Method
 The `GetOrderDto` method is an asynchronous method that retrieves a specific order from database. This method takes a Guid representing identifier for an order to retrieve from database. This method uses a LINQ query to join several tables in database, including Orders, OrderTypes, OrderStatuses, OrderItems, and DishesAndOthers tables. Then this method filters retrieved orders by their identifier using `.Where(o => o.OrderId == orderid)` and projects them into `OrderWithItemsDto` object using `.Select(o => new OrderWithItemsDto {...})`. Finally, this method returns `OrderWithItemsDto` object representing an order with specified identifier from database.
 
-Is there anything else you would like me to include in this documentation? Let me know if you have any other endpoints or methods you would like me to document. 😊
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## GetOrderByOrderCode Endpoint and Methods
+The `GetOrderByOrderCode` endpoint is an HTTP GET method that retrieves an order by its order code from the database using the `GetOrderByOrderCodeDto` method. This endpoint is accessed by sending a GET request to the `/GetOrderByOrderCode` route with a query parameter `code` representing the order code of the order to retrieve.
+
+## GetOrderByOrderCode Endpoint
+
+* Method: GET
+* URL: `/GetOrderByOrderCode?code={code}`
+* Params:
+    * `code`: The order code of the order to retrieve.
+* Response:
+    * A JSON object representing the order, with the following properties:
+        * `OrderId`: The ID of the order.
+        * `OrderDate`: The date of the order.
+        * `OrderCode`: The order code of the order.
+        * `OrderStatusId`: The ID of the order status.
+        * `OrderStatusName`: The name of the order status.
+        * `CancelCause`: The cancel cause of the order, if applicable.
+        * `CancelDate`: The cancel date of the order, if applicable.
+        * `OrderTypeId`: The ID of the order type.
+        * `OrderTypeName`: The name of the order type.
+        * `FullName`: The full name of the customer, if applicable.
+        * `PhoneNumber`: The phone number of the customer, if applicable.
+        * `Address`: The address of the customer, if applicable.
+        * `Items`: An array of objects representing the items in the order, each with the following properties:
+            * `ItemIdDto`: The ID of the item.
+            * `DishId`: The ID of the dish.
+            * `DishName`: The name of the dish.
+            * `Description`: The description of the dish.
+            * `Price`: The price of the dish.
+            * `Quantity`: The quantity of the dish in this item.
+            * `TotalPrice`: The total price of this item (price x quantity).
+            * `ItemNotes`: Notes for this item, if any.
+
+    * Example:
+
+```
+{
+    "OrderId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "OrderDate": "2023-08-27T13:44:09.000Z",
+    "OrderCode": "OC-ABC12345",
+    "OrderStatusId": 5,
+    "OrderStatusName": "Pending",
+    "CancelCause": "N/A",
+    "CancelDate": null,
+    "OrderTypeId": 1,
+    "OrderTypeName": "Delivery",
+    "FullName": "John Doe",
+    "PhoneNumber": 1234567890,
+    "Address": "123 Main St",
+    "Items": [
+        {
+            "ItemIdDto": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "DishId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "DishName": "French Fries",
+            "Description": "Golden brown, crispy fries served with ketchup.",
+            "Price": 3.99,
+            "Quantity": 2,
+            "TotalPrice": 7.98,
+            "ItemNotes": "Extra spicy"
+        },
+        {
+            "ItemIdDto": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "DishId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "DishName": "Chicken Wings",
+            "Description": "Juicy, grilled chicken wings tossed in your choice of sauce.",
+            "Price": 10.99,
+            "Quantity": 1,
+            "TotalPrice": 10.99,
+            "ItemNotes": No onions"
+        }
+    ]
+}
+```
+* Code: `400 Bad Request`: No order was found with the specified order code or an error occurred while processing the request.
+* Code: `200 OK`
+
+### GetOrderByOrderCodeDto Method
+The `GetOrderByOrderCodeDto` method is an asynchronous method that takes an order code as input and returns an object representing an order with its associated data. This method uses a LINQ query to join several tables in the database and retrieve information about an order with the specified order code.
+
+If no order is found with the specified order code, an exception is thrown with a message indicating that no order was found. If an exception occurs while executing this method, it is logged using `_logger.LogError` method with a message indicating that an error occurred while using GetOrderByOrderCodeDto method and rethrown.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+## CreateOrder Endpoint and Methods
+The `CreateOrder` endpoint is an HTTP POST method that creates a new order using the `CreateOrder` method. This endpoint is accessed by sending a POST request to the `/CreateOrder` route with a JSON payload in the request body representing the list of `OrderItemToAddDto` objects to add.
+
+## CreateOrder Endpoint
+
+* Method: POST
+* URL: `/CreateOrder`
+* Body:
+    * A JSON array of objects representing the order items to add, each with the following properties:
+        * `DishId`: The ID of the dish.
+        * `Quantity`: The quantity of the dish.
+        * `ItemNotes`: Notes for the dish.
+        * `FullName`: The full name of the customer.
+        * `PhoneNumber`: The phone number of the customer.
+        * `Address`: The address of the customer.
+        * `OrderTypeId`: The ID of the order type.
+     
+    * example of how you could use this endpoint:
+
+```
+POST /CreateOrder HTTP/1.1
+Host: yourdomain.com
+Content-Type: application/json
+
+[
+    {
+        "DishId": 1,
+        "Quantity": 2,
+        "ItemNotes": "Extra spicy",
+        "FullName": "John Doe",
+        "PhoneNumber": "1234567890",
+        "Address": "123 Main St",
+        "OrderTypeId": 1
+    },
+    {
+        "DishId": 2,
+        "Quantity": 1,
+        "ItemNotes": "No onions",
+        "FullName": "John Doe",
+        "PhoneNumber": "1234567890",
+        "Address": "123 Main St",
+        "OrderTypeId": 1
+    }
+]
+```
+
+* Response:
+    * A JSON array of objects representing the created order items, each with the following properties:
+        * `ItemId`: The ID of the order item.
+        * `Quantity`: The quantity of the dish.
+        * `ItemNotes`: Notes for the dish.
+        * `DishId`: The ID of the dish.
+        * `OrderId`: The ID of the order.
+    * Example:
+
+```
+[
+    {
+        "ItemId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Quantity": 2,
+        "ItemNotes": "Extra spicy",
+        "DishId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "OrderId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+    },
+    {
+        "ItemId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Quantity": 1,
+        "ItemNotes": "No onions",
+        "DishId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "OrderId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+    }
+]
+```
+* Code: `400 Bad Request`: The input data is invalid or an error occurred while processing the request.
+* Code: `200 OK`
+
+### CreateOrder Method
+The `CreateOrder` method is an asynchronous method that takes a list of `OrderItemToAddDto` objects as input and returns a list of `OrderItem` objects. This method performs several validation checks on the input data, such as checking if the input list is empty, if the specified `OrderStatusId` and `OrderTypeId` are valid, and if the specified `DishId` for each order item is valid.
+
+If any of these validation checks fail, an exception is thrown with an appropriate error message. If all validation checks pass, a new `Order` object is created and added to the database, along with all the `OrderItem` objects in the input list. The method also enqueues the new order using the `_orderQueueService.EnqueueOrder` method.
+
+If an exception occurs while executing this method, it is logged using the `_logger.LogError` method with a message indicating that an error occurred while using the `CreateOrder` method, and the exception is rethrown.
+
+
+## OrderQueueService Methods
+The `OrderQueueService` class contains two methods for managing the order queue: `EnqueueOrder` and `DequeueOrder`.
+
+#### EnqueueOrder Method
+The `EnqueueOrder` method is an asynchronous method that takes an `Order` object as input and adds it to the order queue. This method finds the next available position in the queue and adds a new `OrderQueue` object to the database with the specified `OrderId`. The method then saves the changes to the database.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## PrepareNextOrder Endpoint and Methods
+The `PrepareNextOrder` endpoint is an HTTP PUT method that prepares the next order in the queue using the `PrepareNextOrder` method. This endpoint is accessed by sending a PUT request to the `/Prepare Next Order` route.
+
+## PrepareNextOrder Endpoint
+
+* Method: PUT
+* URL: `/Prepare Next Order`
+* Response:
+    * A JSON object representing the prepared order, with the following properties:
+        * `OrderId`: The ID of the order.
+        * `OrderCode`: The order code of the order.
+        * `OrderDate`: The date of the order.
+        * `OrderItems`: An array of objects representing the items in the order, each with the following properties:
+            * `ItemId`: The ID of the item.
+            * `DishName`: The name of the dish.
+            * `Quantity`: The quantity of the dish in this item.
+            * `Notes`: Notes for this item, if any.
+
+    * Example:
+
+```
+{
+    "OrderId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "OrderCode": "OC-ABC12345",
+    "OrderDate": "2023-08-27T13:44:09.000Z",
+    "OrderItems": [
+        {
+            "ItemId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "DishName": "French Fries",
+            "Quantity": 2,
+            "Notes": "Extra spicy"
+        },
+        {
+            "ItemId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "DishName": "Chicken Wings",
+            "Quantity": 1,
+            "Notes": No onions"
+        }
+    ]
+}
+```
+* Code: `404 Not Found`: No orders were found in the queue or an error occurred while processing the request.
+* Code: `200 OK`
+
+### PrepareNextOrder Method
+The `PrepareNextOrder` method is an asynchronous method that prepares the next order in the queue and returns an object representing that order. This method dequeues the next order from the queue using `_orderQueueService.DequeueOrder` method, updates its status to 'Prepared' using `UpdateOrderStatusToPrepare` method, saves changes to database using `UpdateOrderInDatabase` method and retrieves information about that order using `GetOrderForKitchen` method.
+
+If no orders are found in the queue or an error occurs while executing this method, it is logged using `_logger.LogError` method with a message indicating that an error occurred while using PrepareNextOrder method and rethrown.
+
+### DequeueOrder Method
+The `DequeueOrder` method is an asynchronous method that removes the first order from the order queue and returns it. This method finds the first `OrderQueue` object in the queue, removes it from the database, and saves the changes. The method then retrieves the corresponding `Order` object from the database, including its related data, and returns it.
+
+If no orders are found in the queue, an exception is thrown with a message indicating that no orders were found.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+## ServeNextOrder Endpoint and Methods
+The `ServeNextOrder` endpoint is an HTTP PUT method that serves an order by its order code using the `ServeOrder` method. This endpoint is accessed by sending a PUT request to the `/Serve` route with a query parameter `orderCode` representing the order code of the order to serve.
+
+## ServeNextOrder Endpoint
+
+* Method: PUT
+* URL: `/Serve?orderCode={orderCode}`
+* Params:
+    * `orderCode`: The order code of the order to serve.
+* Response:
+    * A JSON object representing the invoice for the served order, with the following properties:
+        * `InvoiceDate`: The date of the invoice.
+        * `InvoiceId`: The ID of the invoice.
+        * `InvoiceCode`: The invoice code of the invoice.
+        * `OrderCode`: The order code of the associated order.
+        * `OrderDate`: The date of the associated order.
+        * `OrderTypeName`: The name of the type of the associated order.
+        * `OrderStatusName`: The name of the status of the associated order.
+        * `ReturnDate`: The return date of the associated order, if applicable.
+        * `ReturnCause`: The return cause of the associated order, if applicable.
+        * `FullName`: The full name of the customer, if applicable.
+        * `PhoneNumber`: The phone number of the customer, if applicable.
+        * `Address`: The address of the customer, if applicable.
+        * `OrderItems`: An array of objects representing the items in the associated order, each with the following properties:
+            * `InvoiceItemId`: The ID of the item in this invoice.
+            * `DishName`: The name of the dish in this item.
+            * `CategoryName`: The name of the category of this dish in this item.
+            * `Quantity`: The quantity of this dish in this item.
+            * `Notes`: Notes for this item, if any.
+            * `Price`: The price per unit for this dish in this item.
+            * `TotalPriceO`: The total price for this item (price x quantity).
+        * `Total`: The total price for all items in this invoice.
+        * `PaymentStatusName`: The name of payment status for this invoice and it's by default "unpaid yet "
+
+    * Example:
+
+```
+{
+    "InvoiceDate": "2023-08-27T13:44:09.000Z",
+    "InvoiceId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "InvoiceCode": "IC-ABC12345",
+    "OrderCode": "OC-ABC12345",
+    "OrderDate": "2023-08-27T13:44:09.000Z",
+    "OrderTypeName": "Delivery",
+    "OrderStatusName": "Served",
+    "ReturnDate": null,
+    "ReturnCause": null,
+    "FullName": "John Doe",
+    "PhoneNumber": 1234567890,
+    "Address": "123 Main St",
+    "OrderItems": [
+        {
+            "InvoiceItemId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "DishName": "French Fries",
+            "CategoryName": "Appetizers",
+            "Quantity": 2,
+            "Notes": "Extra spicy",
+            "Price": 3.99,
+            "TotalPriceO": 7.98
+        },
+        {
+            "InvoiceItemId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "DishName": "Chicken Wings",
+            "CategoryName": "Appetizers",
+            "Quantity": 1,
+            "Notes": No onions",
+            "Price": 10.99,
+            "TotalPriceO": 10.99
+        }
+    ],
+    Total: 18.97,
+    PaymentStatusName: unpaid yet
+}
+```
+* Code: `404 Not Found`: No orders were found with specified order code or an error occurred while processing request.
+* Code: `200 OK`
+
+### ServeNextOrder Method
+The `ServeNextOrder` method is an asynchronous method that takes an order code as input, serves an order with that code, creates an invoice for that order using `_invoiceServices.CreateInvoice` method, deletes that order from database using `_orderService.DeleteOrderAsync` method and returns an object representing invoice for that order.
+
+If no orders are found with specified code or an error occurs while executing this method, it is logged using `_logger.LogError` method with a message indicating that an error occurred while using ServeNextOrder method and rethrown.
+
+
+### DeleteOrderAsync Method
+The `DeleteOrderAsync` method is an asynchronous method that takes an order ID as input and deletes an order with that ID from the database. This method retrieves an order with specified ID using `GetOrder` method, checks if that order is in the queue using `_orderQueueService.GetOrderQueueAsync` method, removes that order from the queue if it is in the queue using `_orderQueueService.RemoveOrderQueue` method to remove it from the queue, removes that order from the database using `_context.Orders.Remove` method and saves changes to database using `_context.SaveChangesAsync` method.
+
+If no orders are found with specified ID or an error occurs while executing this method, it is logged using `_logger.LogError` method with a message indicating that an error occurred while using DeleteOrderAsync method and rethrown.
+
+
+## CreateInvoice Method
+The `CreateInvoice` method is an asynchronous method that takes an order code as input and creates an invoice for an order with that code. This method performs several steps to create an invoice for the specified order:
+
+1. The method checks if the input order code is null. If it is, an `ArgumentNullException` is thrown with a message indicating that the input is invalid.
+2. The method retrieves an order with the specified code using the `_orderServices.GetOrderByOrderCode` method.
+3. The method checks if the retrieved order is in a state that allows creating an invoice (i.e., its status is not 'Unprepared' or 'Pending'). If it is not, an `Exception` is thrown with a message indicating that an invoice cannot be created for an unprepared order.
+4. The method creates a new `Invoice` object and sets its properties using data from the retrieved order. Specifically, it sets the `OrderId`, `Date`, `Total`, `FullName`, `Address`, and `PhoneNumber` properties of the new invoice object using data from the retrieved order. It also sets the `PaymentStatus` property of the new invoice object to 'Unpaid' and if the status of the retrieved order is 'Canceled' It sets the `PaymentStatus` property of the new invoice object to 'Canceled'.
+5. The method adds the new invoice to the database using the `AddInvoiceInDatabase` method.
+6. The method sets the `OrderItems` property of the new invoice object using data from the retrieved order. Specifically, it creates a new `InvoiceItem` object for each item in the retrieved order and sets its properties using data from that item.
+7. The method saves changes to the database using the `_context.SaveChangesAsync` method.
+8. The method retrieves information about the new invoice using the `GetInvoiceByInvoiceCode` method.
+
+If no orders are found with specified code or an error occurs while executing this method, it is logged using `_logger.LogError` method with a message indicating that an error occurred while using CreateInvoice method and rethrown.
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Here is the technical documentation for the `CancelOrder` method and endpoint:
+
+## CancelOrder Endpoint and Methods
+The `CancelOrder` endpoint is an HTTP PUT method that cancels an order using the `UpdateOrderStatusToCancelOrder` method. This endpoint is accessed by sending a PUT request to the `/cancel order` route with a query parameter `order` representing the order to cancel.
+
+## CancelOrder Endpoint
+
+* Method: PUT
+* URL: `/cancel order?order={order}`
+* Params:
+    * `order`: A JSON object representing the order to cancel, with the following properties:
+        * `OrderCode`: The order code of the order to cancel.
+        * `ReturnCause`: The reason for canceling the order.
+* Response:
+    * A JSON object representing the invoice for the canceled order.
+    * Example:
+
+```
+{
+    "InvoiceDate": "2023-08-27T13:44:09.000Z",
+    "InvoiceId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "InvoiceCode": "IC-ABC12345",
+    "OrderCode": "OC-ABC12345",
+    "OrderDate": "2023-08-27T13:44:09.000Z",
+    "OrderTypeName": "Delivery",
+    "OrderStatusName": "Canceled",
+    "ReturnDate": null,
+    "ReturnCause": null,
+    "FullName": "John Doe",
+    "PhoneNumber": 1234567890,
+    "Address": "123 Main St",
+    "OrderItems": [
+        {
+            "InvoiceItemId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "DishName": "French Fries",
+            "CategoryName": "Appetizers",
+            "Quantity": 2,
+            "Notes": "Extra spicy",
+            "Price": 3.99,
+            "TotalPriceO": 7.98
+        },
+        {
+            "InvoiceItemId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "DishName": "Chicken Wings",
+            "CategoryName": "Appetizers",
+            "Quantity": 1,
+            "Notes": No onions",
+            "Price": 10.99,
+            "TotalPriceO": 10.99
+        }
+    ],
+    Total: 18.97,
+    PaymentStatusName: Canceled
+}
+```
+* Code: `400 Bad Request`: No orders were found with specified order code or an error occurred while processing request.
+* Code: `200 OK`
+
+### CancelOrder Method
+The `CancelOrder` method is an asynchronous method that takes a `CancelOrderDto` object as input, cancels an order with specified code, creates an invoice for that order using `_invoiceServices.CreateInvoice` method, deletes that order from database using `_orderService.DeleteOrderAsync` method and returns an object representing invoice for that order.
+
+If no orders are found with specified code or an error occurs while executing this method, it is logged using `_logger.LogError` method with a message indicating that an error occurred while using `CancelOrder` method and rethrown.
+
+
+
+Here is a more detailed version of the technical documentation for the `CreateInvoice` method:
+
+## CreateInvoice Method
+The `CreateInvoice` method is an asynchronous method that takes an order code as input and creates an invoice for an order with that code. This method performs several steps to create an invoice for the specified order:
+
+1. The method checks if the input order code is null. If it is, an `ArgumentNullException` is thrown with a message indicating that the input is invalid.
+2. The method retrieves an order with the specified code using the `_orderServices.GetOrderByOrderCode` method.
+3. The method checks if the retrieved order is in a state that allows creating an invoice (i.e., its status is not 'Unprepared' or 'Pending'). If it is not, an `Exception` is thrown with a message indicating that an invoice cannot be created for an unprepared order.
+4. The method creates a new `Invoice` object and sets its properties using data from the retrieved order. Specifically, it sets the `OrderId`, `Date`, `Total`, `FullName`, `Address`, and `PhoneNumber` properties of the new invoice object using data from the retrieved order. It also sets the `PaymentStatus` property of the new invoice object to 'Unpaid' and if the status of the retrieved order is 'Canceled' It sets the `PaymentStatus` property of the new invoice object to 'Canceled'.
+5. The method adds the new invoice to the database using the `AddInvoiceInDatabase` method.
+6. The method sets the `OrderItems` property of the new invoice object using data from the retrieved order. Specifically, it creates a new `InvoiceItem` object for each item in the retrieved order and sets its properties using data from that item.
+7. The method saves changes to the database using the `_context.SaveChangesAsync` method.
+8. The method retrieves information about the new invoice using the `GetInvoiceByInvoiceCode` method.
+
+If no orders are found with specified code or an error occurs while executing this method, it is logged using `_logger.LogError` method with a message indicating that an error occurred while using CreateInvoice method and rethrown.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
