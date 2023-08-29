@@ -56,11 +56,15 @@ namespace RestaurantApp.Controllers
 
         public async Task<IActionResult> AddCategory( CategoryDto model)
         {
+            var existCategory = await _categoryServices.CategoryIsExist(model.Name);
 
             var category = new Category
             {
                Name = model.Name
             };
+
+            if (existCategory)
+                return BadRequest("category already exist ");
 
             await _categoryServices.AddCategory(category);
 
@@ -73,6 +77,11 @@ namespace RestaurantApp.Controllers
         [HttpPut("UpdateCategory")]
         public async Task<IActionResult> UpdateCategory([FromQuery] int id, [FromQuery] CategoryDto model)
         {
+            var existCategory = await _categoryServices.CategoryIsExist(model.Name);
+
+            if (existCategory)
+                return BadRequest("category already exist ");
+
             var updatedCategory = await _categoryServices.UpdateCategory(id, model);
 
             return Ok(updatedCategory);

@@ -88,13 +88,13 @@ namespace RestaurantApp.Services.Contents.Concretes
         {
             try
             {
-                var existCategory = await GetCategoryById(id);
+                var category = await GetCategoryById(id);
                 
-                existCategory.Name = model.Name;    
+                category.Name = model.Name;    
 
-                _context.Update(existCategory);
+                _context.Update(category);
                 _context.SaveChanges();
-                return existCategory;
+                return category;
 
             }
             catch (Exception ex)
