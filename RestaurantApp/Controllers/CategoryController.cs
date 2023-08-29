@@ -64,7 +64,7 @@ namespace RestaurantApp.Controllers
             };
 
             if (existCategory)
-                return BadRequest("category already exist ");
+                return BadRequest("category already exist");
 
             await _categoryServices.AddCategory(category);
 
@@ -80,7 +80,7 @@ namespace RestaurantApp.Controllers
             var existCategory = await _categoryServices.CategoryIsExist(model.Name);
 
             if (existCategory)
-                return BadRequest("category already exist ");
+                return BadRequest("category already exist");
 
             var updatedCategory = await _categoryServices.UpdateCategory(id, model);
 
