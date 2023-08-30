@@ -4,12 +4,12 @@
  
 * [Introduction](#Introduction)
 * [Technologies](#Technologies)
-* [Database](#Database)
-* [Models](#Models)
+* [Database](#database)
+* [Models](#models)
 * [Controllers](#controllers)
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-# Database
+# [Database](#database)
 
 
 ![222](https://github.com/haithamabass/RestaurantSystem/assets/38409716/ca358c49-a2d2-4cc1-a503-3cb0b88d7142)
@@ -31,7 +31,7 @@ Database contains the following tables:
 * `PaymentStatuses`: This table stores the different payment statuses, such as "Pending", "Paid", and "Cancelled".
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-# Models
+# [Models](#models)
 
 
 ## Menu
