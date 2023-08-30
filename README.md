@@ -135,17 +135,22 @@ Database contains the following tables:
 
   # [CategoryController](#CategoryController)
 
- * [GetAllCategories Endpoin](#getAllCategories)
- * [AddCategory Endpoint](#AddCategory)
- * [UpdateCategory Endpoint](#UpdateCategory)
- * [DeleteCategory Endpoint](#DeleteCategory)
+ * [GetAllCategories Endpoin](#getallcategories)
+ * [GetCategoryById Endpoin](#GetCategoryById)
+ * [AddCategory Endpoint](#addcategory)
+ * [UpdateCategory Endpoint](#updatecategory)
+ * [DeleteCategory Endpoint](#deletecategory)
+
+
+                        
+
+
 
 ## GetAllCategories Endpoint and Methods
 The GetAllCategories endpoint is an HTTP GET method that retrieves all categories from the database using `GetAll` method . This endpoint is accessed by sending a GET request to the /Get All Categories route.
 
-## [GetAllCategories Endpoin](#getAllCategories)
 
-
+### [GetAllCategories Endpoin](#getallcategories)
 * Method: GET
 * URL: `/GetAllCategories`
 * Response:
@@ -215,7 +220,8 @@ If an exception occurs while executing this method, it is logged using the _logg
 The GetCategoryById endpoint is an HTTP GET method that retrieves a category by its ID from the database using method `GetCategoryById`. This endpoint is accessed by sending a GET request to the /{id}/GetCategory route, where {id} is the ID of the category to retrieve.
 
 
-## GetCategoryById Endpoint 
+### [GetCategoryById Endpoin](#GetCategoryById)
+
 
 * Method: GET
 * URL: `/GetCategoryById/{id}`
@@ -269,7 +275,7 @@ If no category is found, the method throws an exception with a message indicatin
 ## AddCategory Endpoint and Methods
 The `AddCategory` endpoint is an HTTP POST method that adds a new category to the database using the `AddCategory` method. This endpoint is accessed by sending a POST request to the `/AddCategory` route with a JSON payload representing the category to add.
 
-### AddCategory Endpoint
+### [AddCategory Endpoint](#addcategory)
 * **Method**: POST
 * **URL**: `/AddCategory`
 * **Body**:
@@ -311,7 +317,7 @@ If an exception occurs while executing this method, it is logged using the `_log
 ## UpdateCategory Endpoint and Method
 The `UpdateCategory` endpoint is an HTTP PUT method that updates an existing category in the database using the methods  `UpdateCategory` and `CategoryIsExist` . This endpoint is accessed by sending a PUT request to the `/UpdateCategory` route with query parameters representing the ID of the category to update and a JSON payload representing the updated category.
 
-### UpdateCategory Endpoint
+### [UpdateCategory Endpoint](#updatecategory)
 * **Method**: PUT
 * **URL**: `/UpdateCategory`
 * **Query Params**:
@@ -351,7 +357,7 @@ If no category with the same name exists, the method uses the `_categoryServices
 ## DeleteCategory Endpoint and Method
 The `DeleteCategory` endpoint is an HTTP DELETE method that deletes an existing category from the database using the `DeleteCategory` method. This endpoint is accessed by sending a DELETE request to the `/{id}/DeleteCategory` route, where `{id}` is the ID of the category to delete.
 
-### DeleteCategory Endpoint
+### [DeleteCategory Endpoint](#deletecategory)
 * **Method**: DELETE
 * **URL**: `/{id}/DeleteCategory`
 * **Path Params**:
