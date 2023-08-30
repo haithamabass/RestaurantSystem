@@ -1260,7 +1260,7 @@ The `DeleteOrderAsync` method is an asynchronous method that takes an order ID a
 If no orders are found with specified ID or an error occurs while executing this method, it is logged using `_logger.LogError` method with a message indicating that an error occurred while using DeleteOrderAsync method and rethrown.
 
 
-## CreateInvoice Method
+### CreateInvoice Method
 The `CreateInvoice` method is an asynchronous method that takes an order code as input and creates an invoice for an order with that code. This method performs several steps to create an invoice for the specified order:
 
 1. The method checks if the input order code is null. If it is, an `ArgumentNullException` is thrown with a message indicating that the input is invalid.
@@ -1344,7 +1344,7 @@ If no orders are found with specified code or an error occurs while executing th
 
 Here is a more detailed version of the technical documentation for the `CreateInvoice` method:
 
-## CreateInvoice Method
+### CreateInvoice Method
 The `CreateInvoice` method is an asynchronous method that takes an order code as input and creates an invoice for an order with that code. This method performs several steps to create an invoice for the specified order:
 
 1. The method checks if the input order code is null. If it is, an `ArgumentNullException` is thrown with a message indicating that the input is invalid.
@@ -1359,3 +1359,665 @@ The `CreateInvoice` method is an asynchronous method that takes an order code as
 If no orders are found with specified code or an error occurs while executing this method, it is logged using `_logger.LogError` method with a message indicating that an error occurred while using CreateInvoice method and rethrown.
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ ## [InvoiceController](#InvoiceController)
+
+
+## GetInvoices Endpoint and Methods
+The `GetInvoices` endpoint is an HTTP GET method that retrieves all invoices from the database using the `GetAllInvoices` method. This endpoint is accessed by sending a GET request to the `/GetInvoices` route.
+
+## GetInvoices Endpoint
+
+* Method: GET
+* URL: `/GetInvoices`
+* Response:
+    * An array of JSON objects representing all invoices, each with the following properties:
+        * `InvoiceDate`: The date of the invoice.
+        * `InvoiceId`: The ID of the invoice.
+        * `InvoiceCode`: The invoice code of the invoice.
+        * `OrderCode`: The order code of the associated order.
+        * `OrderDate`: The date of the associated order.
+        * `OrderTypeName`: The name of the type of the associated order.
+        * `OrderStatusName`: The name of the status of the associated order.
+        * `ReturnDate`: The return date of the associated order, if applicable.
+        * `ReturnCause`: The return cause of the associated order, if applicable.
+        * `FullName`: The full name of the customer, if applicable.
+        * `PhoneNumber`: The phone number of the customer, if applicable.
+        * `Address`: The address of the customer, if applicable.
+        * `OrderItems`: An array of objects representing the items in the associated order, each with the following properties:
+            * `InvoiceItemId`: The ID of the item in this invoice.
+            * `DishName`: The name of the dish in this item.
+            * `CategoryName`: The name of the category of this dish in this item.
+            * `Quantity`: The quantity of this dish in this item.
+            * `Notes`: Notes for this item, if any.
+            * `Price`: The price per unit for this dish in this item.
+            * `TotalPriceO`: The total price for this item (price x quantity).
+        * `Total`: The total price for all items in this invoice.
+        * `PaymentStatusName`: The name of payment status for this invoice.
+
+    * Example:
+
+```
+[
+    {
+        "InvoiceDate": "2023-08-27T13:44:09.000Z",
+        "InvoiceId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "InvoiceCode": "IC-ABC12345",
+        "OrderCode": "OC-ABC12345",
+        "OrderDate": "2023-08-27T13:44:09.000Z",
+        "OrderTypeName": "Delivery",
+        "OrderStatusName": "Served",
+        "ReturnDate": null,
+        "ReturnCause": null,
+        "FullName": "John Doe",
+        "PhoneNumber": 1234567890,
+        "Address": "123 Main St",
+        "OrderItems": [
+            {
+                "InvoiceItemId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "DishName": "French Fries",
+                "CategoryName": "Appetizers",
+                "Quantity": 2,
+                "Notes": "Extra spicy",
+                "Price": 3.99,
+                "TotalPriceO": 7.98
+            },
+            {
+                "InvoiceItemId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "DishName": "Chicken Wings",
+                "CategoryName": "Appetizers",
+                "Quantity": 1,
+                "Notes": No onions",
+                "Price": 10.99,
+                "TotalPriceO": 10.99
+            }
+        ],
+        Total: 18.97,
+        PaymentStatusName: Paid
+    },
+    ...
+]
+```
+* Code: `204 No Content`: No invoices were found or an error occurred while processing request.
+* Code: `200 OK`
+
+### GetInvoices Method
+The `GetInvoices` method is an asynchronous method that retrieves all invoices from database using `_invoiceServices.GetAllInvoices` method and returns a list of objects representing those invoices.
+
+If no invoices are found or an error occurs while executing this method, it is logged using `_logger.LogError` method with a message indicating that an error occurred while using `GetInvoices` method.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## GetReadyToPickUpInvoices Endpoint and Methods
+The `GetReadyToPickUpInvoices` endpoint is an HTTP GET method that retrieves all invoices for orders that are ready for pickup from the database using the `GetAllInvoicesOfOrdersReadyForPickUp` method. This endpoint is accessed by sending a GET request to the `/GetReadyToPickUpInvoices` route.
+
+## GetReadyToPickUpInvoices Endpoint
+
+* Method: GET
+* URL: `/GetReadyToPickUpInvoices`
+* Response:
+    * An array of JSON objects representing all invoices for orders that are ready for pickup, each with the following properties:
+        * `InvoiceDate`: The date of the invoice.
+        * `InvoiceId`: The ID of the invoice.
+        * `InvoiceCode`: The invoice code of the invoice.
+        * `OrderCode`: The order code of the associated order.
+        * `OrderDate`: The date of the associated order.
+        * `OrderTypeName`: The name of the type of the associated order.
+        * `OrderStatusName`: The name of the status of the associated order.
+        * `ReturnDate`: The return date of the associated order, if applicable.
+        * `ReturnCause`: The return cause of the associated order, if applicable.
+        * `FullName`: The full name of the customer, if applicable.
+        * `PhoneNumber`: The phone number of the customer, if applicable.
+        * `Address`: The address of the customer, if applicable.
+        * `OrderItems`: An array of objects representing the items in the associated order, each with the following properties:
+            * `InvoiceItemId`: The ID of the item in this invoice.
+            * `DishName`: The name of the dish in this item.
+            * `CategoryName`: The name of the category of this dish in this item.
+            * `Quantity`: The quantity of this dish in this item.
+            * `Notes`: Notes for this item, if any.
+            * `Price`: The price per unit for this dish in this item.
+            * `TotalPriceO`: The total price for this item (price x quantity).
+        * `Total`: The total price for all items in this invoice.
+        * `PaymentStatusName`: The name of payment status for this invoice.
+
+    * Example:
+
+```
+[
+    {
+        "InvoiceDate": "2023-08-27T13:44:09.000Z",
+        "InvoiceId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "InvoiceCode": "IC-ABC12345",
+        "OrderCode": "OC-ABC12345",
+        "OrderDate": "2023-08-27T13:44:09.000Z",
+        "OrderTypeName": "Take Away",
+        "OrderStatusName": "Ready to Pickup",
+        "ReturnDate": null,
+        "ReturnCause": null,
+        "FullName": "John Doe",
+        "PhoneNumber": 1234567890,
+        "Address": "123 Main St",
+        "OrderItems": [
+            {
+                "InvoiceItemId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "DishName": "French Fries",
+                "CategoryName": "Appetizers",
+                "Quantity": 2,
+                "Notes": "Extra spicy",
+                "Price": 3.99,
+                "TotalPriceO": 7.98
+            },
+            {
+                "InvoiceItemId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "DishName": "Chicken Wings",
+                "CategoryName": "Appetizers",
+                "Quantity": 1,
+                "Notes": No onions",
+                "Price": 10.99,
+                "TotalPriceO": 10.99
+            }
+        ],
+        Total: 18.97,
+        PaymentStatusName: Paid
+    },
+    ...
+]
+```
+* Code: `204 No Content`: No invoices were found or an error occurred while processing request.
+* Code: `200 OK`
+
+### GetReadyToPickUpInvoices Method
+The `GetReadyToPickUpInvoices` method is an asynchronous method that retrieves all invoices for orders that are ready for pickup from database using `_invoiceServices.GetAllInvoicesOfOrdersReadyForPickUp` method and returns a list of objects representing those invoices.
+
+If no invoices are found or an error occurs while executing this method, it is logged using `_logger.LogError` method with a message indicating that an error occurred while using ` GetReadyToPickUpInvoices` method
+
+Here is a more detailed version of the technical documentation for the `GetAllInvoicesOfOrdersReadyForPickUp` method:
+
+### GetAllInvoicesOfOrdersReadyForPickUp Method
+The `GetAllInvoicesOfOrdersReadyForPickUp` method is an asynchronous method that retrieves all invoices for orders that are ready for pickup from the database. This method performs several steps to retrieve all invoices for orders that are ready for pickup:
+
+1. The method queries the database for all invoices where the associated order has a type of 'Take Away' and a status that is not 'Canceled'.
+2. The method includes related data for each invoice, such as its order items and their associated menu items.
+3. The method projects the result of the query into a list of `InvoiceDto` objects, setting their properties using data from the retrieved invoices and their related data.
+4. The method returns the list of `InvoiceDto` objects.
+
+If no invoices are found or an error occurs while executing this method, it is logged using `_logger.LogError` method with a message indicating that an error occurred while using GetAllInvoicesOfOrdersReadyForPickUp method and rethrown.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## GetReadyForDeliveryInvoices Endpoint and Methods
+The `GetReadyForDeliveryInvoices` endpoint is an HTTP GET method that retrieves all invoices for orders that are ready for delivery from the database using the `GetAllInvoicesOfOrdersReadyForDelivery` method. This endpoint is accessed by sending a GET request to the `/GetReadyForDeliveryInvoices` route.
+
+## GetReadyForDeliveryInvoices Endpoint
+
+* Method: GET
+* URL: `/GetReadyForDeliveryInvoices`
+* Response:
+    * An array of JSON objects representing all invoices for orders that are ready for delivery, each with the following properties:
+        * `InvoiceDate`: The date of the invoice.
+        * `InvoiceId`: The ID of the invoice.
+        * `InvoiceCode`: The invoice code of the invoice.
+        * `OrderCode`: The order code of the associated order.
+        * `OrderDate`: The date of the associated order.
+        * `OrderTypeName`: The name of the type of the associated order.
+        * `OrderStatusName`: The name of the status of the associated order.
+        * `ReturnDate`: The return date of the associated order, if applicable.
+        * `ReturnCause`: The return cause of the associated order, if applicable.
+        * `FullName`: The full name of the customer, if applicable.
+        * `PhoneNumber`: The phone number of the customer, if applicable.
+        * `Address`: The address of the customer, if applicable.
+        * `OrderItems`: An array of objects representing the items in the associated order, each with the following properties:
+            * `InvoiceItemId`: The ID of the item in this invoice.
+            * `DishName`: The name of the dish in this item.
+            * `CategoryName`: The name of the category of this dish in this item.
+            * `Quantity`: The quantity of this dish in this item.
+            * `Notes`: Notes for this item, if any.
+            * `Price`: The price per unit for this dish in this item.
+            * `TotalPriceO`: The total price for this item (price x quantity).
+        * `Total`: The total price for all items in this invoice.
+        * `PaymentStatusName`: The name of payment status for this invoice.
+
+    * Example:
+
+```
+[
+    {
+        "InvoiceDate": "2023-08-27T13:44:09.000Z",
+        "InvoiceId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "InvoiceCode": "IC-ABC12345",
+        "OrderCode": "OC-ABC12345",
+        "OrderDate": "2023-08-27T13:44:09.000Z",
+        "OrderTypeName": "Delivery",
+        "OrderStatusName": "Ready to Deliver",
+        "ReturnDate": null,
+        "ReturnCause": null,
+        "FullName": "John Doe",
+        "PhoneNumber": 1234567890,
+        "Address": "123 Main St",
+        "OrderItems": [
+            {
+                "InvoiceItemId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "DishName": "French Fries",
+                "CategoryName": "Appetizers",
+                "Quantity": 2,
+                "Notes": "Extra spicy",
+                "Price": 3.99,
+                "TotalPriceO": 7.98
+            },
+            {
+                "InvoiceItemId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "DishName": "Chicken Wings",
+                "CategoryName": "Appetizers",
+                "Quantity": 1,
+                "Notes": No onions",
+                "Price": 10.99,
+                "TotalPriceO": 10.99
+            }
+        ],
+        Total: 18.97,
+        PaymentStatusName: Paid
+    },
+    ...
+]
+```
+* Code: `204 No Content`: No invoices were found or an error occurred while processing request.
+* Code: `200 OK`
+
+### GetReadyForDeliveryInvoices Method
+The `GetReadyForDeliveryInvoices` method is an asynchronous method that retrieves all invoices for orders that are ready for delivery from database using `_invoiceServices.GetAllInvoicesOfOrdersReadyForDelivery` method and returns a list of objects representing those invoices.
+
+If no invoices are found or an error occurs while executing this method, it is logged using `_logger.LogError` method with a message indicating that an error occurred while using `GetReadyForDeliveryInvoices` method.
+
+
+### GetAllInvoicesOfOrdersReadyForDelivery Method
+The `GetAllInvoicesOfOrdersReadyForDelivery` method is an asynchronous method that retrieves all invoices for orders that are ready for delivery from the database. This method performs several steps to retrieve all invoices for orders that are ready for delivery:
+
+1. The method queries the database for all invoices where the associated order has a type of 'Delivery' and a status that is not 'Canceled'.
+2. The method includes related data for each invoice, such as its order items and their associated menu items.
+3. The method projects the result of the query into a list of `InvoiceDto` objects, setting their properties using data from the retrieved invoices and their related data. Specifically, it sets the `InvoiceDate`, `InvoiceId`, `InvoiceCode`, `OrderCode`, `OrderDate`, `OrderTypeName`, `OrderStatusName`, `ReturnCause`, `ReturnDate`, `FullName`, `PhoneNumber`, `Address`, `Total`, and `PaymentStatusName` properties of each `InvoiceDto` object using data from the retrieved invoice and its related data. It also sets the `OrderItems` property of each `InvoiceDto` object to a list of `InvoiceItemDto` objects, setting their properties using data from the retrieved invoice items and their related data.
+4. The method returns the list of `InvoiceDto` objects.
+
+If no invoices are found or an error occurs while executing this method, it is logged using `_logger.LogError` method with a message indicating that an error occurred while using `GetAllInvoicesOfOrdersReadyForDelivery` method.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## GetInvoicesByOrderType Endpoint and Methods
+The `GetInvoicesByOrderType` endpoint is an HTTP GET method that retrieves all invoices for orders of a specified type from the database using the `GetAllInvoicesByOrderType` method. This endpoint is accessed by sending a GET request to the `/GetInvoiceByOrderType` route with a query parameter `type` representing the ID of the order type.
+
+## GetInvoicesByOrderType Endpoint
+
+* Method: GET
+* URL: `/GetInvoiceByOrderType?type={type}`
+* Params:
+    * `type`: The ID of the order type to retrieve invoices for.
+* Response:
+    * An array of JSON objects representing all invoices for orders of the specified type, each with the following properties:
+        * `InvoiceDate`: The date of the invoice.
+        * `InvoiceId`: The ID of the invoice.
+        * `InvoiceCode`: The invoice code of the invoice.
+        * `OrderCode`: The order code of the associated order.
+        * `OrderDate`: The date of the associated order.
+        * `OrderTypeName`: The name of the type of the associated order.
+        * `OrderStatusName`: The name of the status of the associated order.
+        * `ReturnDate`: The return date of the associated order, if applicable.
+        * `ReturnCause`: The return cause of the associated order, if applicable.
+        * `FullName`: The full name of the customer, if applicable.
+        * `PhoneNumber`: The phone number of the customer, if applicable.
+        * `Address`: The address of the customer, if applicable.
+        * `OrderItems`: An array of objects representing the items in the associated order, each with the following properties:
+            * `InvoiceItemId`: The ID of the item in this invoice.
+            * `DishName`: The name of the dish in this item.
+            * `CategoryName`: The name of the category of this dish in this item.
+            * `Quantity`: The quantity of this dish in this item.
+            * `Notes`: Notes for this item, if any.
+            * `Price`: The price per unit for this dish in this item.
+            * `TotalPriceO`: The total price for this item (price x quantity).
+        * `Total`: The total price for all items in this invoice.
+        * `PaymentStatusName`: The name of payment status for this invoice.
+
+    * Example:
+
+```
+[
+    {
+        "InvoiceDate": "2023-08-27T13:44:09.000Z",
+        "InvoiceId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "InvoiceCode": "IC-ABC12345",
+        "OrderCode": "OC-ABC12345",
+        "OrderDate": "2023-08-27T13:44:09.000Z",
+        "OrderTypeName": "Delivery",
+        "OrderStatusName": "Ready to Deliver",
+        "ReturnDate": null,
+        "ReturnCause": null,
+        "FullName": "John Doe",
+        "PhoneNumber": 1234567890,
+        "Address": "123 Main St",
+        "OrderItems": [
+            {
+                "InvoiceItemId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "DishName": "French Fries",
+                "CategoryName": "Appetizers",
+                "Quantity": 2,
+                "Notes": "Extra spicy",
+                "Price": 3.99,
+                "TotalPriceO": 7.98
+            },
+            {
+                "InvoiceItemId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "DishName": "Chicken Wings",
+                "CategoryName": "Appetizers",
+                "Quantity": 1,
+                "Notes": No onions",
+                "Price": 10.99,
+                "TotalPriceO": 10.99
+            }
+        ],
+        Total: 18.97,
+        PaymentStatusName: Paid
+    },
+    ...
+]
+```
+* Code: `204 No Content`: No invoices were found or an error occurred while processing request.
+* Code: `200 OK`
+
+### GetInvoicesByOrderType Method
+The `GetInvoicesByOrderType` method is an asynchronous method that retrieves all invoices for orders of a specified type from database using `_invoiceServices.GetAllInvoicesByOrderType` method and returns a list of objects representing those invoices.
+
+If no invoices are found or an error occurs while executing this method, it is logged using `_logger.LogError` method with a message indicating that an error occurred while using `GetInvoicesByOrderType` method and rethrown.
+
+Here is a more detailed version of the technical documentation for the `GetAllInvoicesByOrderType` method:
+
+### GetAllInvoicesByOrderType Method
+The `GetAllInvoicesByOrderType` method is an asynchronous method that retrieves all invoices for orders of a specified type from the database. This method performs several steps to retrieve all invoices for orders of the specified type:
+
+1. The method queries the database for all invoices where the associated order has a type that matches the specified type and a status that is not 'Canceled'.
+2. The method includes related data for each invoice, such as its order items and their associated menu items.
+3. The method projects the result of the query into a list of `InvoiceDto` objects, setting their properties using data from the retrieved invoices and their related data. Specifically, it sets the `InvoiceDate`, `InvoiceId`, `InvoiceCode`, `OrderCode`, `OrderDate`, `OrderTypeName`, `OrderStatusName`, `ReturnCause`, `ReturnDate`, `FullName`, `PhoneNumber`, `Address`, `Total`, and `PaymentStatusName` properties of each `InvoiceDto` object using data from the retrieved invoice and its related data. It also sets the `OrderItems` property of each `InvoiceDto` object to a list of `InvoiceItemDto` objects, setting their properties using data from the retrieved invoice items and their related data.
+4. The method returns the list of `InvoiceDto` objects.
+
+If no invoices are found or an error occurs while executing this method, it is logged using `_logger.LogError` method with a message indicating that an error occurred while using `GetAllInvoicesByOrderType` method and rethrown.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## CreateInvoice Endpoint and Methods
+The `CreateInvoice` endpoint is an HTTP POST method that creates an invoice for an order with a specified order code using the `CreateInvoice` method. This endpoint is accessed by sending a POST request to the `/CreateInvoice` route with a JSON body containing the order code.
+
+## CreateInvoice Endpoint
+
+* Method: POST
+* URL: `/CreateInvoice`
+* Body:
+    * A JSON object representing the order code to create an invoice for, with the following properties:
+        * `orderCode`: The order code of the order to create an invoice for.
+* Response:
+    * A JSON object representing the created invoice, with the following properties:
+        * `InvoiceDate`: The date of the invoice.
+        * `InvoiceId`: The ID of the invoice.
+        * `InvoiceCode`: The invoice code of the invoice.
+        * `OrderCode`: The order code of the associated order.
+        * `OrderDate`: The date of the associated order.
+        * `OrderTypeName`: The name of the type of the associated order.
+        * `OrderStatusName`: The name of the status of the associated order.
+        * `ReturnDate`: The return date of the associated order, if applicable.
+        * `ReturnCause`: The return cause of the associated order, if applicable.
+        * `FullName`: The full name of the customer, if applicable.
+        * `PhoneNumber`: The phone number of the customer, if applicable.
+        * `Address`: The address of the customer, if applicable.
+        * `OrderItems`: An array of objects representing the items in the associated order, each with the following properties:
+            * `InvoiceItemId`: The ID of the item in this invoice.
+            * `DishName`: The name of the dish in this item.
+            * `CategoryName`: The name of the category of this dish in this item.
+            * `Quantity`: The quantity of this dish in this item.
+            * `Notes`: Notes for this item, if any.
+            * `Price`: The price per unit for this dish in this item.
+            * `TotalPriceO`: The total price for this item (price x quantity).
+        * `Total`: The total price for all items in this invoice.
+        * `PaymentStatusName`: The name of payment status for this invoice.
+
+    * Example:
+
+```
+{
+    "InvoiceDate": "2023-08-27T13:44:09.000Z",
+    "InvoiceId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "InvoiceCode": "IC-ABC12345",
+    "OrderCode": "OC-ABC12345",
+    "OrderDate": "2023-08-27T13:44:09.000Z",
+    "OrderTypeName": "Delivery",
+    "OrderStatusName": "Ready to Deliver",
+    "ReturnDate": null,
+    "ReturnCause": null,
+    "FullName": "John Doe",
+    "PhoneNumber": 1234567890,
+    "Address": "123 Main St",
+    "OrderItems": [
+        {
+            "InvoiceItemId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "DishName": "French Fries",
+            "CategoryName": "Appetizers",
+            "Quantity": 2,
+            "Notes": "Extra spicy",
+            "Price": 3.99,
+            "TotalPriceO": 7.98
+        },
+        {
+            "InvoiceItemId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "DishName": "Chicken Wings",
+            "CategoryName": "Appetizers",
+            "Quantity": 1,
+            "Notes": No onions",
+            "Price": 10.99,
+            "TotalPriceO": 10.99
+        }
+    ],
+    Total: 18.97,
+    PaymentStatusName: Paid
+}
+```
+* Code: `400 Bad Request`: No order code was provided or an error occurred while processing request.
+* Code: `201 Created`
+
+### CreateInvoice Method
+The `CreateInvoice` method is an asynchronous method that creates an invoice for an order with a specified order code using `_invoiceServices.CreateInvoice` method and returns a JSON object representing that invoice.
+
+If no orders are found with specified code or an error occurs while executing this method, it is logged using `_logger.LogError` method with a message indicating that an error occurred while using `CreateInvoice` method and rethrown.
+
+Here is a more detailed version of the technical documentation for the internal `CreateInvoice` method:
+
+### CreateInvoice Method
+The `CreateInvoice` method is an asynchronous method that takes an order code as input and creates an invoice for an order with that code. This method performs several steps to create an invoice for the specified order:
+
+1. The method checks if the input order code is null. If it is, an `ArgumentNullException` is thrown with a message indicating that the input is invalid.
+2. The method retrieves an order with the specified code using the `_orderServices.GetOrderByOrderCode` method.
+3. The method checks if the retrieved order is in a state that allows creating an invoice (i.e., its status is not 'Unprepared' or 'Pending'). If it is not, an `Exception` is thrown with a message indicating that an invoice cannot be created for an unprepared order.
+4. The method creates a new `Invoice` object and sets its properties using data from the retrieved order. Specifically, it sets the `OrderId`, `Date`, `Total`, `FullName`, `Address`, and `PhoneNumber` properties of the new invoice object using data from the retrieved order. It also sets the `PaymentStatus` property of the new invoice object to 'Unpaid' and if the status of the retrieved order is 'Canceled' It sets the `PaymentStatus` property of the new invoice object to 'Canceled'.
+5. The method adds the new invoice to the database using the `AddInvoiceInDatabase` method.
+6. The method sets the `OrderItems` property of the new invoice object using data from the retrieved order. Specifically, it creates a new `InvoiceItem` object for each item in the retrieved order and sets its properties using data from that item.
+7. The method saves changes to the database using the `_context.SaveChangesAsync` method.
+8. The method retrieves information about the new invoice using the `GetInvoiceByInvoiceCode` method.
+
+If no orders are found with specified code or an error occurs while executing this method, it is logged using `_logger.LogError` method with a message indicating that an error occurred while using `CreateInvoice` method and rethrown.
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## ProceedInvoices Endpoint and Methods
+The `ProceedInvoices` endpoint is an HTTP PUT method that updates the payment status of an invoice with a specified invoice code to 'Paid' using the `UpdateInvoicePaymentStatusToPaid` method. This endpoint is accessed by sending a PUT request to the `/Proceed Invoices` route with a query parameter `code` representing the invoice code.
+
+### ProceedInvoices Endpoint
+
+* Method: PUT
+* URL: `/Proceed Invoices?code={code}`
+* Params:
+    * `code`: The invoice code of the invoice to update its payment status to 'Paid'.
+* Response:
+    * A JSON object representing the updated invoice, with the following properties:
+        * `InvoiceDate`: The date of the invoice.
+        * `InvoiceId`: The ID of the invoice.
+        * `InvoiceCode`: The invoice code of the invoice.
+        * `OrderCode`: The order code of the associated order.
+        * `OrderDate`: The date of the associated order.
+        * `OrderTypeName`: The name of the type of the associated order.
+        * `OrderStatusName`: The name of the status of the associated order.
+        * `ReturnDate`: The return date of the associated order, if applicable.
+        * `ReturnCause`: The return cause of the associated order, if applicable.
+        * `FullName`: The full name of the customer, if applicable.
+        * `PhoneNumber`: The phone number of the customer, if applicable.
+        * `Address`: The address of the customer, if applicable.
+        * `OrderItems`: An array of objects representing the items in the associated order, each with the following properties:
+            * `InvoiceItemId`: The ID of the item in this invoice.
+            * `DishName`: The name of the dish in this item.
+            * `CategoryName`: The name of the category of this dish in this item.
+            * `Quantity`: The quantity of this dish in this item.
+            * `Notes`: Notes for this item, if any.
+            * `Price`: The price per unit for this dish in this item.
+            * `TotalPriceO`: The total price for this item (price x quantity).
+        * `Total`: The total price for all items in this invoice.
+        * `PaymentStatusName`: The name of payment status for this invoice.
+
+    * Example:
+
+```
+{
+    "InvoiceDate": "2023-08-27T13:44:09.000Z",
+    "InvoiceId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "InvoiceCode": "IC-ABC12345",
+    "OrderCode": "OC-ABC12345",
+    "OrderDate": "2023-08-27T13:44:09.000Z",
+    "OrderTypeName": "Delivery",
+    "OrderStatusName": "Ready to Deliver",
+    "ReturnDate": null,
+    "ReturnCause": null,
+    "FullName": "John Doe",
+    "PhoneNumber": 1234567890,
+    "Address": "123 Main St",
+    "OrderItems": [
+        {
+            "InvoiceItemId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "DishName": "French Fries",
+            "CategoryName": "Appetizers",
+            "Quantity": 2,
+            "Notes": "Extra spicy",
+            "Price": 3.99,
+            "TotalPriceO": 7.98
+        },
+        {
+            "InvoiceItemId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "DishName": "Chicken Wings",
+            "CategoryName": "Appetizers",
+            "Quantity": 1,
+            "Notes": No onions",
+            "Price": 10.99,
+            "TotalPriceO": 10.99
+        }
+    ],
+    Total: 18.97,
+    PaymentStatusName: Paid
+}
+```
+* Code: `200 OK`
+
+### ProceedInvoices Method
+The `ProceedInvoices` method is an asynchronous method that updates the payment status of an invoice with a specified invoice code to 'Paid' using `_invoiceServices.UpdateInvoicePaymentStatusToPaid` method and returns a JSON object representing that updated invoice.
+
+If no invoices are found with specified code or an error occurs while executing this method, it is logged using `_logger.LogError` method with a message indicating that an error occurred while using `ProceedInvoices` method and rethrown.
+
+Here is a more detailed version of the technical documentation for the internal `UpdateInvoicePaymentStatusToPaid` method:
+
+### UpdateInvoicePaymentStatusToPaid Method
+The internal `UpdateInvoicePaymentStatusToPaid` method is an asynchronous method that takes an invoice code as input and updates the payment status of an invoice with that code to 'Paid'. This method retrieves an invoice with specified code using `GetInvoiceByInvoiceCodeToUpdate` method, checks if that invoice is in a state that allows updating its payment status, sets its `PaymentStatus` property to 'Paid' or 'Canceled' depending on the status of the associated order, updates that invoice in the database using `UpdateInvoiceInDatabase` method and retrieves information about that updated invoice using `GetInvoiceByInvoiceCode` method.
+
+If no invoices are found with specified code or an error occurs while executing this method, it is logged using `_logger.LogError` method with a message indicating that an error occurred while using `UpdateInvoicePaymentStatusToPaid` method and rethrown.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## UpdateInvoice Endpoint and Methods
+The `UpdateInvoice` endpoint is an HTTP PUT method that updates an invoice with a specified invoice code using the `UpdateInvoice` method. This endpoint is accessed by sending a PUT request to the `/Update Invoices` route with a JSON body containing the invoice details to update.
+
+## UpdateInvoice Endpoint
+
+* Method: PUT
+* URL: `/Update Invoices`
+* Body:
+    * A JSON object representing the invoice details to update, with the following properties:
+        * `InvoiceCode`: The invoice code of the invoice to update.
+        * `OrderStatusId`: The ID of the new order status for the associated order, if applicable.
+        * `CancelCause`: The new cancel cause for the associated order, if applicable.
+        * `OrderTypeId`: The ID of the new order type for the associated order, if applicable.
+        * `FullName`: The new full name of the customer for the associated order, if applicable.
+        * `PhoneNumber`: The new phone number of the customer for the associated order, if applicable.
+        * `Address`: The new address of the customer for the associated order, if applicable.
+* Response:
+    * A JSON object representing the updated invoice, with the following properties:
+        * `InvoiceDate`: The date of the invoice.
+        * `InvoiceId`: The ID of the invoice.
+        * `InvoiceCode`: The invoice code of the invoice.
+        * `OrderCode`: The order code of the associated order.
+        * `OrderDate`: The date of the associated order.
+        * `OrderTypeName`: The name of the type of the associated order.
+        * `OrderStatusName`: The name of the status of the associated order.
+        * `ReturnDate`: The return date of the associated order, if applicable.
+        * `ReturnCause`: The return cause of the associated order, if applicable.
+        * `FullName`: The full name of the customer, if applicable.
+        * `PhoneNumber`: The phone number of the customer, if applicable.
+        * `Address`: The address of the customer, if applicable.
+        * `OrderItems`: An array of objects representing the items in the associated order, each with the following properties:
+            * `InvoiceItemId`: The ID of the item in this invoice.
+            * `DishName`: The name of the dish in this item.
+            * `CategoryName`: The name of the category of this dish in this item.
+            * `Quantity`: The quantity of this dish in this item.
+            * `Notes`: Notes for this item, if any.
+            * `Price`: The price per unit for this dish in this item.
+            * `TotalPriceO`: The total price for this item (price x quantity).
+        * `Total`: The total price for all items in this invoice.
+        * `PaymentStatusName`: The name of payment status for this invoice.
+
+    * Example:
+
+```
+{
+    "InvoiceDate": "2023-08-27T13:44:09.000Z",
+    "InvoiceId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "InvoiceCode": "IC-ABC12345",
+    "OrderCode": "OC-ABC12345",
+    "OrderDate": "2023-08-27T13:44:09.000Z",
+    "OrderTypeName": "Delivery",
+    "OrderStatusName": "Ready to Deliver",
+    "ReturnDate": null,
+    "ReturnCause": null,
+    "FullName": "John Doe",
+    "PhoneNumber": 1234567890,
+    "Address": "123 Main St",
+    "OrderItems": [
+        {
+            "InvoiceItemId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "DishName": "French Fries",
+            "CategoryName": "Appetizers",
+            "Quantity": 2,
+            "Notes": "Extra spicy",
+            "Price": 3.99,
+            "TotalPriceO": 7.98
+        },
+        {
+            "InvoiceItemId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "DishName": "Chicken Wings",
+            "CategoryName": "Appetizers",
+            "Quantity": 1,
+            "Notes": No onions",
+            "Price": 10.99,
+            <EUGPSCoordinates>10.99
+        }
+    ],
+    Total: 18.97,
+    PaymentStatusName: Paid
+}
+```
+* Code: `200 OK`
+
+### UpdateInvoice Method
+The internal `UpdateInvoice` method is an asynchronous method that takes an instance of an object representing an invoice to update as input and updates that invoice using `_invoiceServices.UpdateInvoice` method. This method retrieves an invoice with specified code using `GetInvoiceByInvoiceCodeToUpdate` method, checks if that invoice is in a state that allows updating, sets its properties using data from the input object, updates that invoice in the database using `UpdateInvoiceInDatabase` method and retrieves information about that updated invoice using `GetInvoiceByInvoiceCode` method.
+
+If no invoices are found with specified code or an error occurs while executing this method, it is logged using `_logger.LogError` method with a message indicating that an error occurred while using `UpdateInvoice` method and rethrown.
+
