@@ -5,34 +5,146 @@
 * [Introduction](#Introduction)
 * [Technologies](#Technologies)
 * [Database](#Database)
+* [Models](#Models)
 * [Controllers](#controllers)
 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Database
 
+
+![222](https://github.com/haithamabass/RestaurantSystem/assets/38409716/ca358c49-a2d2-4cc1-a503-3cb0b88d7142)
+
+
+
+Database contains the following tables:
+
+* `Categories`: This table stores the names of the different categories of dishes.
+* `DishesAndOthers`: This table stores the details of the dishes and other items that are sold by the restaurant.
+* `Images`: This table stores the images of the dishes.
+* `InvoiceItems`: This table stores the items that are included in an invoice.
+* `Invoices`: This table stores the invoices that are generated for orders.
+* `OrderItems`: This table stores the items that are included in an order.
+* `OrderQueue`: This table stores the order queue, which is a list of orders that are waiting to be prepared.
+* `Orders`: This table stores the details of each order, such as the order date, order type, order status, and notes.
+* `OrderStatuses`: This table stores the different order statuses, such as "Pending", "In Progress", "Ready", and "Completed".
+* `OrderTypes`: This table stores the different order types, such as "Takeout", "Delivery", and "Dine-in".
+* `PaymentStatuses`: This table stores the different payment statuses, such as "Pending", "Paid", and "Cancelled".
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Models
+
+
+## Menu
+
+* `DishId`: `int` The ID of the dish.
+* `DishName`: `string` The name of the dish.
+* `Description`: `string` The description of the dish.
+* `Price`: `decimal` The price of the dish.
+* `Available`: `boolean` Whether the dish is available.
+* `CategoryId`: `int` The ID of the category that the dish belongs to.
+* `DishImage`: `byte[]` The image of the dish.
+
+### DishImage
+
+
+* `Id`: `int` The ID of the image.
+* `Image`: `byte[]` The image data.
+* `DishId`: `int` The ID of the dish that the image belongs to.
+
+### Category
+
+
+* `CategoryId`: `int` The ID of the category.
+* `Name`: `string` The name of the category.
+* `Dishes`: `List[Menu]` A collection of `Menu` objects.
+
+### Order
+* `OrderId`: `int` The ID of the order.
+* `OrderCode`: `string` The order code.
+* `OrderDate`: `datetime` The date of the order.
+* `OrderTypeId`: `int` The ID of the order type.
+* `OrderStatusId`: `int` The ID of the order status.
+* `Notes`: `string` Any notes about the order.
+* `OrderItems`: `List[OrderItem]` A collection of `OrderItem` objects.
+* `OrderType`: `OrderType` The `OrderType` object for the order.
+* `Status`: `OrderStatus` The `OrderStatus` object for the order.
+* `FullName`: `string` The full name of the customer.
+* `PhoneNumber`: `string` The phone number of the customer.
+* `Address`: `string` The address of the customer.
+* `CancelDate`: `datetime` The date the order was canceled.
+* `CancelCause`: `string` The reason the order was canceled.
+
+### OrderItem
+
+* `ItemId`: `int` The ID of the order item.
+* `Quantity`: `int` The quantity of the dish in the order item.
+* `ItemNotes`: `string` Any notes about the order item.
+* `DishId`: `int` The ID of the dish in the order item.
+* `OrderId`: `int` The ID of the order that the order item belongs to.
+* `Menu`: `Menu` The `Menu` object that the dish in the order item belongs to.
+
+### OrderQueue
+
+* `QueuePosition`: `int` The position of the order in the queue.
+* `OrderId`: `int` The ID of the order.
+* `Order`: `Order` The `Order` object for the order.
+
+### OrderStatus
+
+* `OrderStatusId`: `int` The ID of the order status.
+* `Name`: `string` The name of the order status.
+
+### OrderType
+
+* `OrderTypeId`: `int` The ID of the order type.
+* `Name`: `string` The name of the order type.
+* `Orders`: `List[Order]` A collection of `Order` objects.
+
+### Invoice
+* `InvoiceId`: `int` The ID of the invoice.
+* `InvoiceCode`: `string` The code for the invoice.
+* `Date`: `datetime` The date of the invoice.
+* `Total`: `decimal` The total amount of the invoice.
+* `OrderItems`: `List[InvoiceItem]` A collection of `InvoiceItem` objects for the invoice.
+* `OrderId`: `int` The ID of the order that the invoice is for.
+* `Order`: `Order
+
+### InvoiceItem
+* `InvoiceItemId`: `int` The ID of the invoice item.
+* `InvoiceId`: `int` The ID of the invoice that the invoice item belongs to.
+* `DishId`: `int` The ID of the dish in the invoice item.
+* `Quantity`: `int` The quantity of the dish in the invoice item.
+* `Notes`: `string` Notes for the invoice item.
+* `Menu`: `Menu` The `Menu` object that the dish in the invoice item belongs to.
+* `Invoice`: `Invoice` The `Invoice` object that the invoice item belongs to.
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
  
  # [Controllers](#controllers)
  
-| Controller | Description |
-|---|---|
-| [GetAllCategories](#GetAllCategories)| Get all categories from the database. |
-| `GetById` | Get a category by its ID from the database. |
-| `AddCategory` | Add a new category to the database. |
-| `UpdateCategory` | Update an existing category in the database. |
-| `DeleteCategory` | Delete a category from the database. |
+* [CategoryController](#CategoryController)
+* [MenuController](#MenuController)
+* [OrderController](#OrderController)
+* [InvoiceController](#InvoiceController)
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+  # [CategoryController](#CategoryController)
 
- # [CategoryController](#CategoryController)
+ * [GetAllCategories Endpoin](#getAllCategories)
+ * [AddCategory Endpoint](#AddCategory)
+ * [UpdateCategory Endpoint](#UpdateCategory)
+ * [DeleteCategory Endpoint](#DeleteCategory)
 
 ## GetAllCategories Endpoint and Methods
 The GetAllCategories endpoint is an HTTP GET method that retrieves all categories from the database using `GetAll` method . This endpoint is accessed by sending a GET request to the /Get All Categories route.
 
-## GetAllCategories Endpoint
+## [GetAllCategories Endpoin](#getAllCategories)
+
 
 * Method: GET
 * URL: `/GetAllCategories`
