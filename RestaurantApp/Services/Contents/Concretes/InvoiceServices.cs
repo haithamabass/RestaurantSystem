@@ -61,7 +61,7 @@ namespace RestaurantApp.Services.Contents.Concretes
 
                 if (invoices is null)
                 {
-                    throw new Exception("no invoices has found");
+                    throw new Exception("no invoices was found");
                 }
 
                 return invoices;
@@ -113,7 +113,7 @@ namespace RestaurantApp.Services.Contents.Concretes
 
                 if (invoices is null)
                 {
-                    throw new Exception("no invoices has found");
+                    throw new Exception("no invoices was found");
                 }
 
                 return invoices;

@@ -181,7 +181,6 @@ namespace RestaurantApp.Controllers
 
 
 
-        #region Proceed Invoices
 
         [HttpPut("Proceed Invoices ")]
         public async Task<IActionResult> ProceedInvoices([FromQuery] string code)
@@ -192,7 +191,6 @@ namespace RestaurantApp.Controllers
             return Ok(updatedItem);
         }
 
-        #endregion
 
 
 
