@@ -136,10 +136,10 @@ Database contains the following tables:
   # CategoryController
 
  * [GetAllCategories](#GetAllCategories)
- * [GetCategoryById Endpoin](#GetCategoryById)
- * [AddCategory Endpoint](#addcategory)
- * [UpdateCategory Endpoint](#updatecategory)
- * [DeleteCategory Endpoint](#deletecategory)
+ * [GetCategoryById](#GetCategoryById)
+ * [AddCategory](#addcategory)
+ * [UpdateCategory](#updatecategory)
+ * [DeleteCategory](#deletecategory)
 
 
                         
@@ -150,7 +150,7 @@ Database contains the following tables:
 The GetAllCategories endpoint is an HTTP GET method that retrieves all categories from the database using `GetAll` method . This endpoint is accessed by sending a GET request to the /Get All Categories route.
 
 
-### GetAllCategories Endpoint 
+### GetAllCategories 
 * Method: GET
 * URL: `/GetAllCategories`
 * Response:
