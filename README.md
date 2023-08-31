@@ -1,13 +1,25 @@
-# RestaurantApp
+# Restaurant System
 
- 
- 
+
 * [Introduction](#Introduction)
 * [Technologies](#Technologies)
 * [Database](#database)
 * [Models](#models)
 * [Controllers](#controllers)
 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Introduction
+restaurant system WebAPI app designed specifically for businesses! Our app aims to provide a convenient experience, for both restaurant staff and customers. It does so by showcasing the menu and available dishes taking orders from clients and seamlessly transmitting them to the kitchen for preparation. Once an order is ready the app promptly notifies the customer. Generates an invoice for their convenience.
+
+With our app restaurant staff can effortlessly manage orders while keeping track of their status in time. Customers can easily browse through the menu check availability and conveniently place their orders directly within the app. Orders are then instantly relayed to the kitchen for preparation. As soon as an order is complete a notification is sent to inform the staff that the order is ready, for pickup or delivery. Additionally, our app streamlines the payment process by generating invoices that make it quick and hassle-free. Currently, we support cash payments.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Technologies
+
+* .NET 7 WebApi
+* Database: Microsoft SQL server.
+* Framework/ library: EntityFramework
+* Redis
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # Database
 
@@ -16,7 +28,7 @@
 
 
 
-Database contains the following tables:
+The database contains the following tables:
 
 * `Categories`: This table stores the names of the different categories of dishes.
 * `DishesAndOthers`: This table stores the details of the dishes and other items that are sold by the restaurant.
