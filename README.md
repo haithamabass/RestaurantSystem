@@ -150,7 +150,7 @@ Database contains the following tables:
 The GetAllCategories endpoint is an HTTP GET method that retrieves all categories from the database using `GetAll` method . This endpoint is accessed by sending a GET request to the /Get All Categories route.
 
 
-### GetAllCategories
+### GetAllCategories Endpoint 
 * Method: GET
 * URL: `/GetAllCategories`
 * Response:
