@@ -1785,6 +1785,89 @@ The `GetAllInvoicesOfOrdersReadyForDelivery` method is an asynchronous method th
 If no invoices are found or an error occurs while executing this method, it is logged using `_logger.LogError` method with a message indicating that an error occurred while using `GetAllInvoicesOfOrdersReadyForDelivery` method.
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## GetInvoiceByInvoiceCode Endpoint and Methods
+The `GetInvoiceByInvoiceCode` endpoint is an HTTP GET method that retrieves an invoice by its invoice code from the database using the `GetInvoiceByInvoiceCode` method. This endpoint is accessed by sending a GET request to the `/GetInvoiceByInvoiceCode` route with a query parameter `invoiceCode` specifying the invoice code of the invoice to retrieve.
+
+### GetInvoiceByInvoiceCode
+* **Method**: GET
+* **URL**: `/GetInvoiceByInvoiceCode`
+* **Query Params**:
+    * `invoiceCode`: The invoice code of the invoice.
+* **Response**:
+    * A JSON object representing the invoice, with the following properties:
+        * `invoiceDate`: The date of the invoice.
+        * `invoiceId`: The ID of the invoice.
+        * `invoiceCode`: The code of the invoice.
+        * `orderCode`: The code of the order associated with the invoice.
+        * `orderDate`: The date of the order associated with the invoice.
+        * `orderTypeName`: The name of the order type associated with the order.
+        * `orderStatusName`: The name of the order status associated with the order.
+        * `returnDate`: The date of return, if applicable.
+        * `returnCause`: The cause of return, if applicable.
+        * `fullName`: The full name of the customer associated with the order.
+        * `phoneNumber`: The phone number of the customer associated with the order.
+        * `address`: The address of the customer associated with the order.
+        * `total`: The total amount of the invoice.
+        * `orderItems`: An array of items in the order, each represented as a JSON object with the following properties:
+            * `invoiceItemId`: The ID of the invoice item.
+            * `dishName`: The name of the dish associated with the invoice item.
+            * `categoryName`: The name of the category associated with the dish.
+            * `quantity`: The quantity of dishes ordered in this invoice item.
+            * `notes`: Any notes associated with this invoice item.
+            * `price`: The price of this dish per unit.
+            * `totalPriceOfItem`: The total price for this dish in this invoice item (quantity x price).
+        * Example:
+
+```json
+{
+    "invoiceDate": "2023-08-31T16:21:40",
+    "invoiceId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "invoiceCode": "INV001",
+    "orderCode": "ORD001",
+    "orderDate": "2023-08-31T16:21:40",
+    "orderTypeName": "Delivery",
+    "orderStatusName": "Completed",
+    "returnDate": null,
+    "returnCause": null,
+    "fullName": "John Doe",
+    "phoneNumber": 1234567890,
+    "address": "123 Main St, Anytown USA",
+    "total": 25.98,
+    "orderItems": [
+        {
+            "invoiceItemId": 1,
+            "dishName": "French Fries",
+            "categoryName": "Appetizers",
+            "quantity": 2,
+            "notes": "",
+            "price": 3.99,
+            "totalPriceOfItem": 7.98
+        },
+        {
+            "invoiceItemId": 2,
+            "dishName": "Cheeseburger",
+            "categoryName": "Entrees",
+            "quantity": 1,
+            "notes": "",
+            "price": 9.99,
+            "<EUGPSCoordinates>totalPriceOfItem</EUGPSCoordinates>": 9.99
+        }
+    ],
+    "<EUGPSCoordinates>paymentStatusName</EUGPSCoordinates>":"Paid"
+}
+```
+* **Code**: `204 No Content`: No content was found for this request (i.e., no invoices were found with this invoice code).
+* **Code**: `200 OK`
+* **Code**: `500 Internal Server Error`: An error occurred while processing this request.
+
+### GetInvoiceByInvoiceCode Method
+The `GetInvoiceByInvoiceCode` method is an asynchronous method that returns an InvoiceDto object representing an invoice. This method takes a string parameter named `code` that specifies the code of the invoice to retrieve. If no invoices are found with this code, an exception is thrown indicating that no invoices were found.
+
+The method uses LINQ to query for invoices in `_context.Invoices` where their InvoiceCode property matches the provided code. It includes related data such as OrderItems, Menu, and Category using the `Include` and `ThenInclude` methods. The query is projected into an InvoiceDto object using the `Select` method, and the `FirstOrDefaultAsync` method is used to asynchronously execute the query and retrieve the first result or a default value if no results are found.
+
+If an exception occurs while executing this method, it is logged using the `_logger.LogError` method and rethrown. The error message includes the text “An error occurred while using `GetInvoiceByInvoiceCode` method”.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ## GetInvoicesByOrderType Endpoint and Methods
 The `GetInvoicesByOrderType` endpoint is an HTTP GET method that retrieves all invoices for orders of a specified type from the database using the `GetAllInvoicesByOrderType` method. This endpoint is accessed by sending a GET request to the `/GetInvoiceByOrderType` route with a query parameter `type` representing the ID of the order type.
