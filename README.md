@@ -9,7 +9,7 @@
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # Introduction
-restaurant system WebAPI app designed specifically for businesses! Our app aims to provide a convenient experience, for both restaurant staff and customers. It does so by showcasing the menu and available dishes taking orders from clients and seamlessly transmitting them to the kitchen for preparation. Once an order is ready the app promptly notifies the customer. Generates an invoice for their convenience.
+Restaurant system WebAPI app designed specifically for businesses! Our app aims to provide a convenient experience, for both restaurant staff and customers. It does so by showcasing the menu and available dishes taking orders from clients and seamlessly transmitting them to the kitchen for preparation. Once an order is ready the app promptly notifies the customer. Generates an invoice for their convenience.
 
 With our app restaurant staff can effortlessly manage orders while keeping track of their status in time. Customers can easily browse through the menu check availability and conveniently place their orders directly within the app. Orders are then instantly relayed to the kitchen for preparation. As soon as an order is complete a notification is sent to inform the staff that the order is ready, for pickup or delivery. Additionally, our app streamlines the payment process by generating invoices that make it quick and hassle-free. Currently, we support cash payments.
 
