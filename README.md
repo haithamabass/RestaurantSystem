@@ -150,7 +150,7 @@ Database contains the following tables:
 The GetAllCategories endpoint is an HTTP GET method that retrieves all categories from the database using `GetAll` method . This endpoint is accessed by sending a GET request to the /Get All Categories route.
 
 
-### [GetAllCategories Endpoin](#getallcategories)
+### GetAllCategories Endpoin
 * Method: GET
 * URL: `/GetAllCategories`
 * Response:
@@ -220,7 +220,7 @@ If an exception occurs while executing this method, it is logged using the _logg
 The GetCategoryById endpoint is an HTTP GET method that retrieves a category by its ID from the database using method `GetCategoryById`. This endpoint is accessed by sending a GET request to the /{id}/GetCategory route, where {id} is the ID of the category to retrieve.
 
 
-### [GetCategoryById Endpoin](#GetCategoryById)
+### GetCategoryById Endpoin
 
 
 * Method: GET
@@ -275,7 +275,7 @@ If no category is found, the method throws an exception with a message indicatin
 ## AddCategory Endpoint and Methods
 The `AddCategory` endpoint is an HTTP POST method that adds a new category to the database using the `AddCategory` method. This endpoint is accessed by sending a POST request to the `/AddCategory` route with a JSON payload representing the category to add.
 
-### [AddCategory Endpoint](#addcategory)
+### AddCategory Endpoint
 * **Method**: POST
 * **URL**: `/AddCategory`
 * **Body**:
@@ -317,7 +317,7 @@ If an exception occurs while executing this method, it is logged using the `_log
 ## UpdateCategory Endpoint and Method
 The `UpdateCategory` endpoint is an HTTP PUT method that updates an existing category in the database using the methods  `UpdateCategory` and `CategoryIsExist` . This endpoint is accessed by sending a PUT request to the `/UpdateCategory` route with query parameters representing the ID of the category to update and a JSON payload representing the updated category.
 
-### [UpdateCategory Endpoint](#updatecategory)
+### UpdateCategory Endpoint
 * **Method**: PUT
 * **URL**: `/UpdateCategory`
 * **Query Params**:
@@ -357,7 +357,7 @@ If no category with the same name exists, the method uses the `_categoryServices
 ## DeleteCategory Endpoint and Method
 The `DeleteCategory` endpoint is an HTTP DELETE method that deletes an existing category from the database using the `DeleteCategory` method. This endpoint is accessed by sending a DELETE request to the `/{id}/DeleteCategory` route, where `{id}` is the ID of the category to delete.
 
-### [DeleteCategory Endpoint](#deletecategory)
+### DeleteCategory Endpoint
 * **Method**: DELETE
 * **URL**: `/{id}/DeleteCategory`
 * **Path Params**:
@@ -379,7 +379,7 @@ If a category with the specified ID is found, the method uses the `_categoryServ
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-# [MenuController](#MenuController)
+# MenuController
  * [GetAllItems Endpoin](#GetAllItems)
  * [GetItemById Endpoint](#GetItemById)
  * [GetItemByName Endpoint](#GetItemByName)
@@ -450,7 +450,7 @@ This method is part of a service class called `MenuServices`, which has dependen
 ## GetItemById Endpoint and Methods
 The `GetItemById` endpoint is an HTTP GET method that retrieves a menu item by its ID from the database using the `GetByIdDto` method. This endpoint is accessed by sending a GET request to the `/{id}` route, where `{id}` is the ID of the menu item to retrieve.
 
-### [GetItemById Endpoint](#GetItemById)
+### GetItemById Endpoint
 * **Method**: GET
 * **URL**: `/{id}`
 * **Path Params**:
@@ -495,7 +495,7 @@ The resulting MenuDto object is then cached using the `_cache.SetStringAsync` me
 ## GetItemByName Endpoint and Methods
 The `GetItemByName` endpoint is an HTTP GET method that retrieves a list of menu items by their name from the database using the `GetByNameDto` method. This endpoint is accessed by sending a GET request to the `/name/{name}` route, where `{name}` is the name of the menu items to retrieve.
 
-### [GetItemByName Endpoint](#GetItemByName)
+## GetItemByName Endpoint
 * **Method**: GET
 * **URL**: `/name/{name}`
 * **Path Params**:
@@ -551,7 +551,7 @@ The resulting list of MenuDto objects is then cached using the `_cache.SetString
 ## GetItemsByCategory Endpoint and Methods
 The `GetItemsByCategory` endpoint is an HTTP GET method that retrieves a list of menu items by their category ID from the database using the `GetAllByCategory` method. This endpoint is accessed by sending a GET request to the `/categoryId/{categoryId}` route, where `{categoryId}` is the ID of the category to retrieve menu items from.
 
-### [GetItemsByCategory Endpoint](#GetItemsByCategory)
+### GetItemsByCategory Endpoint
 * **Method**: GET
 * **URL**: `/categoryId/{categoryId}`
 * **Path Params**:
@@ -607,7 +607,7 @@ The resulting list of MenuDto objects is then cached using the `_cache.SetString
 ## AddItemToMenu Endpoint and Methods
 The `AddItemToMenu` endpoint is an HTTP POST method that adds a new menu item to the database using the `CreateDish` method. This endpoint is accessed by sending a POST request to the `/` route with query parameters representing the menu item to add.
 
-### [AddItemToMenu Endpoint](#AddItemToMenu)
+## AddItemToMenu Endpoint
 * **Method**: POST
 * **URL**: `/`
 * **Query Params**:
@@ -673,7 +673,7 @@ If category is found, this method creates a new Menu object using data from mode
 ## UpdateDish Endpoint and Methods
 The `UpdateDish` endpoint is an HTTP PUT method that updates an existing menu item in the database using the `UpdateDishInMenu` method. This endpoint is accessed by sending a PUT request to the `/UpdateDish` route with query parameters representing the ID of the menu item to update and the updated data for the menu item.
 
-### [UpdateDish Endpoint](#UpdateDish)
+### UpdateDish Endpoint
 * **Method**: PUT
 * **URL**: `/UpdateDish`
 * **Query Params**:
@@ -737,7 +737,7 @@ If passed Menu object is not null, this method updates its properties using data
 ## DeleteItemfromMenu Endpoint and Methods
 The `DeleteItemfromMenu` endpoint is an HTTP DELETE method that deletes an existing menu item from the database using the `DeleteDish` method. This endpoint is accessed by sending a DELETE request to the `/{id}` route, where `{id}` is the ID of the menu item to delete.
 
-### [DeleteItemfromMenu Endpoint](#DeleteItemfromMenu)
+### DeleteItemfromMenu Endpoint
 * **Method**: DELETE
 * **URL**: `/{id}`
 * **Path Params**:
@@ -757,7 +757,7 @@ The `DeleteDish` method is an asynchronous method that deletes an existing menu 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- ## [OrderController](#OrderController)
+ ## OrderController
    * [GetOrdersForKitchen Endpoin](#GetOrdersForKitchen)
    * [GetOrders Endpoint](#GetOrders)
    * [GetOrdersByStatus Endpoint](#GetOrdersByStatus)
