@@ -275,7 +275,7 @@ If no category is found, the method throws an exception with a message indicatin
 ## AddCategory Endpoint and Methods
 The `AddCategory` endpoint is an HTTP POST method that adds a new category to the database using the `AddCategory` method. This endpoint is accessed by sending a POST request to the `/AddCategory` route with a JSON payload representing the category to add.
 
-### AddCategory Endpoint
+### AddCategory
 * **Method**: POST
 * **URL**: `/AddCategory`
 * **Body**:
@@ -317,7 +317,7 @@ If an exception occurs while executing this method, it is logged using the `_log
 ## UpdateCategory Endpoint and Method
 The `UpdateCategory` endpoint is an HTTP PUT method that updates an existing category in the database using the methods  `UpdateCategory` and `CategoryIsExist` . This endpoint is accessed by sending a PUT request to the `/UpdateCategory` route with query parameters representing the ID of the category to update and a JSON payload representing the updated category.
 
-### UpdateCategory Endpoint
+### UpdateCategory
 * **Method**: PUT
 * **URL**: `/UpdateCategory`
 * **Query Params**:
@@ -357,7 +357,7 @@ If no category with the same name exists, the method uses the `_categoryServices
 ## DeleteCategory Endpoint and Method
 The `DeleteCategory` endpoint is an HTTP DELETE method that deletes an existing category from the database using the `DeleteCategory` method. This endpoint is accessed by sending a DELETE request to the `/{id}/DeleteCategory` route, where `{id}` is the ID of the category to delete.
 
-### DeleteCategory Endpoint
+### DeleteCategory
 * **Method**: DELETE
 * **URL**: `/{id}/DeleteCategory`
 * **Path Params**:
@@ -380,13 +380,13 @@ If a category with the specified ID is found, the method uses the `_categoryServ
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # MenuController
- * [GetAllItems Endpoin](#GetAllItems)
- * [GetItemById Endpoint](#GetItemById)
- * [GetItemByName Endpoint](#GetItemByName)
- * [GetItemsByCategory Endpoint](#GetItemsByCategory)
- * [AddItemToMenu Endpoint](#AddItemToMenu)
- * [UpdateDish Endpoint](#UpdateDish)
- * [DeleteItemfromMenu Endpoint](#DeleteItemfromMenu)
+ * [GetAllItems](#GetAllItems)
+ * [GetItemById](#GetItemById)
+ * [GetItemByName](#GetItemByName)
+ * [GetItemsByCategory](#GetItemsByCategory)
+ * [AddItemToMenu](#AddItemToMenu)
+ * [UpdateDish](#UpdateDish)
+ * [DeleteItemfromMenu](#DeleteItemfromMenu)
 
 
 
@@ -394,7 +394,7 @@ If a category with the specified ID is found, the method uses the `_categoryServ
 ## GetAll Endpoint and Method
 The `GetAll` endpoint is an HTTP GET method that retrieves all available menu items from the database using the `GetAll` method. This endpoint is accessed by sending a GET request to the `/GetAll` route.
 
-### [GetAllItems Endpoin](#GetAllItems)
+### GetAllItems Endpoint
 * **Method**: GET
 * **URL**: `/GetAll`
 * **Response**:
