@@ -123,7 +123,7 @@ Database contains the following tables:
 
 
  
- # Controllers {#controllers}
+ # [Controllers](#controllers)
  
 * [CategoryController](#CategoryController)
 * [MenuController](#MenuController)
