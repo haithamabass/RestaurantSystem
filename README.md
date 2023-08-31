@@ -220,7 +220,7 @@ If an exception occurs while executing this method, it is logged using the _logg
 The GetCategoryById endpoint is an HTTP GET method that retrieves a category by its ID from the database using method `GetCategoryById`. This endpoint is accessed by sending a GET request to the /{id}/GetCategory route, where {id} is the ID of the category to retrieve.
 
 
-### GetCategoryById Endpoin
+### GetCategoryById
 
 
 * Method: GET
