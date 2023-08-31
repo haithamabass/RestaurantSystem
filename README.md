@@ -394,7 +394,7 @@ If a category with the specified ID is found, the method uses the `_categoryServ
 ## GetAll Endpoint and Method
 The `GetAll` endpoint is an HTTP GET method that retrieves all available menu items from the database using the `GetAll` method. This endpoint is accessed by sending a GET request to the `/GetAll` route.
 
-### GetAllItems Endpoint
+### GetAllItems
 * **Method**: GET
 * **URL**: `/GetAll`
 * **Response**:
@@ -450,7 +450,7 @@ This method is part of a service class called `MenuServices`, which has dependen
 ## GetItemById Endpoint and Methods
 The `GetItemById` endpoint is an HTTP GET method that retrieves a menu item by its ID from the database using the `GetByIdDto` method. This endpoint is accessed by sending a GET request to the `/{id}` route, where `{id}` is the ID of the menu item to retrieve.
 
-### GetItemById Endpoint
+### GetItemById
 * **Method**: GET
 * **URL**: `/{id}`
 * **Path Params**:
@@ -495,7 +495,7 @@ The resulting MenuDto object is then cached using the `_cache.SetStringAsync` me
 ## GetItemByName Endpoint and Methods
 The `GetItemByName` endpoint is an HTTP GET method that retrieves a list of menu items by their name from the database using the `GetByNameDto` method. This endpoint is accessed by sending a GET request to the `/name/{name}` route, where `{name}` is the name of the menu items to retrieve.
 
-## GetItemByName Endpoint
+### GetItemByName
 * **Method**: GET
 * **URL**: `/name/{name}`
 * **Path Params**:
@@ -551,7 +551,7 @@ The resulting list of MenuDto objects is then cached using the `_cache.SetString
 ## GetItemsByCategory Endpoint and Methods
 The `GetItemsByCategory` endpoint is an HTTP GET method that retrieves a list of menu items by their category ID from the database using the `GetAllByCategory` method. This endpoint is accessed by sending a GET request to the `/categoryId/{categoryId}` route, where `{categoryId}` is the ID of the category to retrieve menu items from.
 
-### GetItemsByCategory Endpoint
+### GetItemsByCategory
 * **Method**: GET
 * **URL**: `/categoryId/{categoryId}`
 * **Path Params**:
@@ -607,7 +607,7 @@ The resulting list of MenuDto objects is then cached using the `_cache.SetString
 ## AddItemToMenu Endpoint and Methods
 The `AddItemToMenu` endpoint is an HTTP POST method that adds a new menu item to the database using the `CreateDish` method. This endpoint is accessed by sending a POST request to the `/` route with query parameters representing the menu item to add.
 
-## AddItemToMenu Endpoint
+### AddItemToMenu 
 * **Method**: POST
 * **URL**: `/`
 * **Query Params**:
@@ -673,7 +673,7 @@ If category is found, this method creates a new Menu object using data from mode
 ## UpdateDish Endpoint and Methods
 The `UpdateDish` endpoint is an HTTP PUT method that updates an existing menu item in the database using the `UpdateDishInMenu` method. This endpoint is accessed by sending a PUT request to the `/UpdateDish` route with query parameters representing the ID of the menu item to update and the updated data for the menu item.
 
-### UpdateDish Endpoint
+### UpdateDish
 * **Method**: PUT
 * **URL**: `/UpdateDish`
 * **Query Params**:
@@ -737,7 +737,7 @@ If passed Menu object is not null, this method updates its properties using data
 ## DeleteItemfromMenu Endpoint and Methods
 The `DeleteItemfromMenu` endpoint is an HTTP DELETE method that deletes an existing menu item from the database using the `DeleteDish` method. This endpoint is accessed by sending a DELETE request to the `/{id}` route, where `{id}` is the ID of the menu item to delete.
 
-### DeleteItemfromMenu Endpoint
+### DeleteItemfromMenu
 * **Method**: DELETE
 * **URL**: `/{id}`
 * **Path Params**:
@@ -758,23 +758,23 @@ The `DeleteDish` method is an asynchronous method that deletes an existing menu 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
  ## OrderController
-   * [GetOrdersForKitchen Endpoin](#GetOrdersForKitchen)
-   * [GetOrders Endpoint](#GetOrders)
-   * [GetOrdersByStatus Endpoint](#GetOrdersByStatus)
-   * [GetOrdersByType Endpoint](#GetOrdersByType)
-   * [GetOrder Endpoint](#GetOrder)
-   * [CreateOrder Endpoint](#CreateOrder)
-   * [GetOrderByOrderCode Endpoint](#GetOrderByOrderCode)
-   * [PrepareNextOrder Endpoint](#PrepareNextOrder)
-   * [ServeNextOrder Endpoint](#ServeNextOrder)
-   * [CancelOrder Endpoint](#CancelOrder)
-   * [CreateOrder Endpoint](#CreateOrder)
+   * [GetOrdersForKitchen](#GetOrdersForKitchen)
+   * [GetOrders ](#GetOrders)
+   * [GetOrdersByStatus ](#GetOrdersByStatus)
+   * [GetOrdersByType ](#GetOrdersByType)
+   * [GetOrder ](#GetOrder)
+   * [CreateOrder ](#CreateOrder)
+   * [GetOrderByOrderCode ](#GetOrderByOrderCode)
+   * [PrepareNextOrder ](#PrepareNextOrder)
+   * [ServeNextOrder ](#ServeNextOrder)
+   * [CancelOrder ](#CancelOrder)
+   * [CreateOrder ](#CreateOrder)
 
 
 ## GetOrdersForKitchen Endpoint and Method
 The `GetOrdersForKitchen` endpoint is an HTTP GET method that retrieves all orders from the database using the `GetAllOrdersForKitchen` method. This endpoint is accessed by sending a GET request to the `/Receive orders` route.
 
-### [GetOrdersForKitchen Endpoin](#GetOrdersForKitchen)
+### GetOrdersForKitchen
 * **Method**: GET
 * **URL**: `/Receive orders`
 * **Response**:
@@ -822,7 +822,7 @@ The `GetAllOrdersForKitchen` method is an asynchronous method that retrieves all
 ## GetOrders Endpoint and Method
 The `GetOrders` endpoint is an HTTP GET method that retrieves all orders from the database using the `GetAllOrders` method. This endpoint is accessed by sending a GET request to the `/GetOrders` route.
 
-### [GetOrders Endpoint](#GetOrders)
+### GetOrders
 * **Method**: GET
 * **URL**: `/GetOrders`
 * **Response**:
@@ -896,7 +896,7 @@ The `GetAllOrders` method is an asynchronous method that retrieves all orders fr
 ## GetOrdersByStatus Endpoint and Method
 The `GetOrdersByStatus` endpoint is an HTTP GET method that retrieves all orders with a specified status from the database using the `GetAllOrdersByOrderStatus` method. This endpoint is accessed by sending a GET request to the `/GetItemsByStatus` route with a query parameter representing the ID of the status of the orders to retrieve.
 
-### [GetOrdersByStatus Endpoint](#GetOrdersByStatus)
+### GetOrdersByStatus
 * **Method**: GET
 * **URL**: `/GetItemsByStatus`
 * **Query Params**:
@@ -958,7 +958,7 @@ The `GetAllOrdersByOrderStatus` method is an asynchronous method that retrieves 
 ## GetOrdersByType Endpoint and Method
 The `GetOrdersByType` endpoint is an HTTP GET method that retrieves all orders with a specified type from the database using the `GetAllOrdersByOrderType` method. This endpoint is accessed by sending a GET request to the `/GetItemsByType` route with a query parameter representing the ID of the type of the orders to retrieve.
 
-### [GetOrdersByType Endpoint](#GetOrdersByType)
+### GetOrdersByType
 * **Method**: GET
 * **URL**: `/GetItemsByType`
 * **Query Params**:
@@ -1019,7 +1019,7 @@ The `GetAllOrdersByOrderType` method is an asynchronous method that retrieves al
 ## GetOrder Endpoint and Method
 The `GetOrder` endpoint is an HTTP GET method that retrieves a specific order from the database using the `GetOrderDto` method. This endpoint is accessed by sending a GET request to the `/GetOrder` route with a query parameter representing the ID of the order to retrieve.
 
-### [GetOrder Endpoint](#GetOrder)
+### GetOrder
 * **Method**: GET
 * **URL**: `/GetOrder`
 * **Query Params**:
@@ -1078,7 +1078,7 @@ The `GetOrderDto` method is an asynchronous method that retrieves a specific ord
 ## GetOrderByOrderCode Endpoint and Methods
 The `GetOrderByOrderCode` endpoint is an HTTP GET method that retrieves an order by its order code from the database using the `GetOrderByOrderCodeDto` method. This endpoint is accessed by sending a GET request to the `/GetOrderByOrderCode` route with a query parameter `code` representing the order code of the order to retrieve.
 
-## [GetOrderByOrderCode Endpoint](#GetOrderByOrderCode)
+### GetOrderByOrderCode
 
 * Method: GET
 * URL: `/GetOrderByOrderCode?code={code}`
@@ -1162,7 +1162,7 @@ If no order is found with the specified order code, an exception is thrown with 
 ## CreateOrder Endpoint and Methods
 The `CreateOrder` endpoint is an HTTP POST method that creates a new order using the `CreateOrder` method. This endpoint is accessed by sending a POST request to the `/CreateOrder` route with a JSON payload in the request body representing the list of `OrderItemToAddDto` objects to add.
 
-## [CreateOrder Endpoint](#CreateOrder)
+### CreateOrder
 
 * Method: POST
 * URL: `/CreateOrder`
@@ -1254,7 +1254,7 @@ The `EnqueueOrder` method is an asynchronous method that takes an `Order` object
 ## PrepareNextOrder Endpoint and Methods
 The `PrepareNextOrder` endpoint is an HTTP PUT method that prepares the next order in the queue using the `PrepareNextOrder` method. This endpoint is accessed by sending a PUT request to the `/Prepare Next Order` route.
 
-## [PrepareNextOrder Endpoint](#PrepareNextOrder)
+### PrepareNextOrder
 
 * Method: PUT
 * URL: `/Prepare Next Order`
@@ -1311,7 +1311,7 @@ If no orders are found in the queue, an exception is thrown with a message indic
 ## ServeNextOrder Endpoint and Methods
 The `ServeNextOrder` endpoint is an HTTP PUT method that serves an order by its order code using the `ServeOrder` method. This endpoint is accessed by sending a PUT request to the `/Serve` route with a query parameter `orderCode` representing the order code of the order to serve.
 
-## [ServeNextOrder Endpoint](#ServeNextOrder)
+### ServeNextOrder
 
 * Method: PUT
 * URL: `/Serve?orderCode={orderCode}`
@@ -1419,7 +1419,7 @@ Here is the technical documentation for the `CancelOrder` method and endpoint:
 ## CancelOrder Endpoint and Methods
 The `CancelOrder` endpoint is an HTTP PUT method that cancels an order using the `UpdateOrderStatusToCancelOrder` method. This endpoint is accessed by sending a PUT request to the `/cancel order` route with a query parameter `order` representing the order to cancel.
 
-## [CancelOrder Endpoint](#CancelOrder)
+### CancelOrder
 
 * Method: PUT
 * URL: `/cancel order?order={order}`
@@ -1499,20 +1499,20 @@ If no orders are found with specified code or an error occurs while executing th
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
  ## [InvoiceController](#InvoiceController)
-   * [GetInvoices Endpoin](#GetInvoices)
-   * [GetOrGetReadyToPickUpInvoicesders Endpoint](#GetReadyToPickUpInvoices)
-   * [GetReadyForDeliveryInvoices Endpoint](#GetReadyForDeliveryInvoices)
-   * [GetInvoiceByInvoiceCode Endpoint](#GetInvoiceByInvoiceCode)
-   * [GetInvoicesByOrderType Endpoint](#GetInvoicesByOrderType)
-   * [CreateInvoice Endpoint](#CreateInvoice)
-   * [ProceedInvoices Endpoint](#ProceedInvoices)
-   * [UpdateInvoice Endpoint](#UpdateInvoice)
+   * [GetInvoices](#GetInvoices)
+   * [GetOrGetReadyToPickUpInvoicesders ](#GetReadyToPickUpInvoices)
+   * [GetReadyForDeliveryInvoices ](#GetReadyForDeliveryInvoices)
+   * [GetInvoiceByInvoiceCode ](#GetInvoiceByInvoiceCode)
+   * [GetInvoicesByOrderType ](#GetInvoicesByOrderType)
+   * [CreateInvoice ](#CreateInvoice)
+   * [ProceedInvoices ](#ProceedInvoices)
+   * [UpdateInvoice](#UpdateInvoice)
 
 
 ## GetInvoices Endpoint and Methods
 The `GetInvoices` endpoint is an HTTP GET method that retrieves all invoices from the database using the `GetAllInvoices` method. This endpoint is accessed by sending a GET request to the `/GetInvoices` route.
 
-### [GetInvoices Endpoin](#GetInvoices)
+### GetInvoices
 
 * Method: GET
 * URL: `/GetInvoices`
@@ -1597,7 +1597,7 @@ If no invoices are found or an error occurs while executing this method, it is l
 ## GetReadyToPickUpInvoices Endpoint and Methods
 The `GetReadyToPickUpInvoices` endpoint is an HTTP GET method that retrieves all invoices for orders that are ready for pickup from the database using the `GetAllInvoicesOfOrdersReadyForPickUp` method. This endpoint is accessed by sending a GET request to the `/GetReadyToPickUpInvoices` route.
 
-### [GetOrGetReadyToPickUpInvoicesders Endpoint](#GetReadyToPickUpInvoices)
+### GetOrGetReadyToPickUpInvoicesders
 * Method: GET
 * URL: `/GetReadyToPickUpInvoices`
 * Response:
@@ -1686,14 +1686,14 @@ The `GetAllInvoicesOfOrdersReadyForPickUp` method is an asynchronous method that
 3. The method projects the result of the query into a list of `InvoiceDto` objects, setting their properties using data from the retrieved invoices and their related data.
 4. The method returns the list of `InvoiceDto` objects.
 
-If no invoices are found or an error occurs while executing this method, it is logged using `_logger.LogError` method with a message indicating that an error occurred while using GetAllInvoicesOfOrdersReadyForPickUp method and rethrown.
+If no invoices are found or an error occurs while executing this method, it is logged using `_logger.LogError` method with a message indicating that an error occurred while using `GetAllInvoicesOfOrdersReadyForPickUp` method and rethrown.
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ## GetReadyForDeliveryInvoices Endpoint and Methods
 The `GetReadyForDeliveryInvoices` endpoint is an HTTP GET method that retrieves all invoices for orders that are ready for delivery from the database using the `GetAllInvoicesOfOrdersReadyForDelivery` method. This endpoint is accessed by sending a GET request to the `/GetReadyForDeliveryInvoices` route.
 
-## [GetReadyForDeliveryInvoices Endpoint](#GetReadyForDeliveryInvoices)
+### GetReadyForDeliveryInvoices
 
 * Method: GET
 * URL: `/GetReadyForDeliveryInvoices`
@@ -1789,7 +1789,7 @@ If no invoices are found or an error occurs while executing this method, it is l
 ## GetInvoicesByOrderType Endpoint and Methods
 The `GetInvoicesByOrderType` endpoint is an HTTP GET method that retrieves all invoices for orders of a specified type from the database using the `GetAllInvoicesByOrderType` method. This endpoint is accessed by sending a GET request to the `/GetInvoiceByOrderType` route with a query parameter `type` representing the ID of the order type.
 
-### [GetInvoicesByOrderType Endpoint](#GetInvoicesByOrderType)
+### GetInvoicesByOrderType
 
 * Method: GET
 * URL: `/GetInvoiceByOrderType?type={type}`
@@ -1888,7 +1888,7 @@ If no invoices are found or an error occurs while executing this method, it is l
 ## CreateInvoice Endpoint and Methods
 The `CreateInvoice` endpoint is an HTTP POST method that creates an invoice for an order with a specified order code using the `CreateInvoice` method. This endpoint is accessed by sending a POST request to the `/CreateInvoice` route with a JSON body containing the order code.
 
-### [CreateInvoice Endpoint](#CreateInvoice)
+### CreateInvoice
 
 * Method: POST
 * URL: `/CreateInvoice`
@@ -1990,7 +1990,7 @@ If no orders are found with specified code or an error occurs while executing th
 ## ProceedInvoices Endpoint and Methods
 The `ProceedInvoices` endpoint is an HTTP PUT method that updates the payment status of an invoice with a specified invoice code to 'Paid' using the `UpdateInvoicePaymentStatusToPaid` method. This endpoint is accessed by sending a PUT request to the `/Proceed Invoices` route with a query parameter `code` representing the invoice code.
 
-### [ProceedInvoices Endpoint](#ProceedInvoices)
+### ProceedInvoices
 
 * Method: PUT
 * URL: `/Proceed Invoices?code={code}`
@@ -2080,7 +2080,7 @@ If no invoices are found with specified code or an error occurs while executing 
 ## UpdateInvoice Endpoint and Methods
 The `UpdateInvoice` endpoint is an HTTP PUT method that updates an invoice with a specified invoice code using the `UpdateInvoice` method. This endpoint is accessed by sending a PUT request to the `/Update Invoices` route with a JSON body containing the invoice details to update.
 
-### [UpdateInvoice Endpoint](#UpdateInvoice)
+### UpdateInvoice
 
 * Method: PUT
 * URL: `/Update Invoices`
