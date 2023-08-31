@@ -1500,12 +1500,12 @@ If no orders are found with specified code or an error occurs while executing th
 
  ## [InvoiceController](#InvoiceController)
    * [GetInvoices](#GetInvoices)
-   * [GetOrGetReadyToPickUpInvoicesders ](#GetReadyToPickUpInvoices)
-   * [GetReadyForDeliveryInvoices ](#GetReadyForDeliveryInvoices)
-   * [GetInvoiceByInvoiceCode ](#GetInvoiceByInvoiceCode)
-   * [GetInvoicesByOrderType ](#GetInvoicesByOrderType)
-   * [CreateInvoice ](#CreateInvoice)
-   * [ProceedInvoices ](#ProceedInvoices)
+   * [GetOrGetReadyToPickUpInvoicesders](#GetReadyToPickUpInvoices)
+   * [GetReadyForDeliveryInvoices](#GetReadyForDeliveryInvoices)
+   * [GetInvoiceByInvoiceCode](#GetInvoiceByInvoiceCode)
+   * [GetInvoicesByOrderType](#GetInvoicesByOrderType)
+   * [CreateInvoice](#CreateInvoice)
+   * [ProceedInvoices](#ProceedInvoices)
    * [UpdateInvoice](#UpdateInvoice)
 
 
